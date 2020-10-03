@@ -48,31 +48,29 @@ namespace ControladorBD
                 
                 OracleParameter descripcion_out = new OracleParameter();
                 descripcion_out.ParameterName = "P_DESCRIPCION_SALIDA";
-                descripcion_out.OracleDbType = OracleDbType.Varchar2 - 80;
+                descripcion_out.OracleDbType = OracleDbType.Varchar2;
+                descripcion_out.Size = 80;
                 descripcion_out.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(descripcion_out);
 
                 cmd.ExecuteNonQuery();
-
-                nota = $"{id_out.Value}";
                 
-                //i = int.Parse(id_out.Value.ToString());
-                /*
+                i = int.Parse(id_out.Value.ToString());
+                
                 if (int.Parse(id_out.Value.ToString()) == 0)
                 {
-                    nota= $"No se ha podido buscar datos devueltos id = {id_out}  descripcion = {descripcion_out}";
+                    nota= $"No se ha podido buscar datos devueltos id = {id_out.Value}  descripcion = {descripcion_out.Value}";
                 }
                 else
                 {
-                    nota =  $" id = {id_out}  descripcion = {descripcion_out}";
-                }*/
+                    nota =  $" id = {id_out.Value}  descripcion = {descripcion_out.Value}";
+                }
                 
             }
             catch(Exception ex)
             {
                 Console.WriteLine($"Error al buscar la información en la base de datos : {ex}");
-                Console.WriteLine($"valor out {i}");
-                Console.WriteLine($"nota ===  {nota}");
+                
 
             }
             conn.Close(); //cierra la conexión

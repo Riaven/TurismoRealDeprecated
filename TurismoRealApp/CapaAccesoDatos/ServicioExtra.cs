@@ -15,12 +15,10 @@ namespace CapaAccesoDatos
         public int Id_servicio_extra { get => _id_servicio_extra; set => _id_servicio_extra = value; }
         public string Descripcion { get => _descripcion; set => _descripcion = value; }
 
-        public int prueba()
+        public ServicioExtra(int id_servicio_extra, string descripcion)
         {
-            return 1;
-        }
-        public ServicioExtra()
-        {
+            _id_servicio_extra = id_servicio_extra;
+            _descripcion = descripcion;
         }
     }
 }
