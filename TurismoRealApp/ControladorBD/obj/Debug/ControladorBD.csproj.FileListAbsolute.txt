@@ -1,0 +1,10 @@
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\bin\Debug\ControladorBD.dll
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\bin\Debug\ControladorBD.pdb
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\bin\Debug\CapaAccesoDatos.dll
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\bin\Debug\CapaAccesoDatos.pdb
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\obj\Debug\ControladorBD.csprojAssemblyReference.cache
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\obj\Debug\ControladorBD.csproj.CoreCompileInputs.cache
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\obj\Debug\ControladorBD.csproj.CopyComplete
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\obj\Debug\ControladorBD.dll
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\ControladorBD\obj\Debug\ControladorBD.pdb

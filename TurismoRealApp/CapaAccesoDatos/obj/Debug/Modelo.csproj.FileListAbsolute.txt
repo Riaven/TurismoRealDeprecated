@@ -1,0 +1,6 @@
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\CapaAccesoDatos\bin\Debug\CapaAccesoDatos.dll
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\CapaAccesoDatos\bin\Debug\CapaAccesoDatos.pdb
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\CapaAccesoDatos\obj\Debug\Modelo.csprojAssemblyReference.cache
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\CapaAccesoDatos\obj\Debug\Modelo.csproj.CoreCompileInputs.cache
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\CapaAccesoDatos\obj\Debug\CapaAccesoDatos.dll
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\CapaAccesoDatos\obj\Debug\CapaAccesoDatos.pdb
