@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ControladorBD;
+using Modelo;
 
 namespace TurismoRealApp
 {
@@ -28,10 +29,44 @@ namespace TurismoRealApp
 
         private void btn_buscar_Click(object sender, RoutedEventArgs e)
         {
-            int id = int.Parse(tbx_id.Text);
-            string nota = string.Empty;
-            nota = ControladorBD.ServicioExtraController.BuscarServicioExtra(id);
-            lbl_nota.Content = nota;
+            if (!tbx_id.Text.Equals(string.Empty))
+            {
+                //falta controlar excepcion si es que el digito no es un número
+                int id = int.Parse(tbx_id.Text);
+                ServicioExtra servicio_extra = null;
+                servicio_extra = ServicioExtraController.BuscarServicioExtra(id);
+               
+
+                //pintando los tbx
+                if (servicio_extra.Id_servicio_extra != 0)
+                {
+                    tbx_id.Text = servicio_extra.Id_servicio_extra.ToString();
+                    tbx_descripcion.Text = servicio_extra.Descripcion.ToString();
+                }
+                else
+                {
+                    MessageBox.Show($"No se ha encontrado registro con id {id}", "No encontrado", MessageBoxButton.OK);
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Debe ingresar un ID a buscar", "Campo vacío", MessageBoxButton.OK);
+            }
+        }
+
+        private void btn_crear_Click(object sender, RoutedEventArgs e)
+        {
+            if (!tbx_id.Text.Equals(string.Empty) && !tbx_descripcion.Text.Equals(string.Empty))
+            {
+                //falta controlar que el dígito no es un número
+
+
+            }
+            else
+            {
+                MessageBox.Show("Ningun campo debe estar vacío al crear un nuevo registro", "Campos vacíos", MessageBoxButton.OK);
+            }
         }
     }
 }

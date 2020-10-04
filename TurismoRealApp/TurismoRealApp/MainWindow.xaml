@@ -7,9 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="btn_buscar" Content="Buscar" HorizontalAlignment="Left" Margin="282,151,0,0" VerticalAlignment="Top" Width="75" Click="btn_buscar_Click"/>
-        <TextBox x:Name="tbx_id" HorizontalAlignment="Left" Height="23" Margin="252,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="lbl_nota"  HorizontalAlignment="Left" Margin="171,277,0,0" VerticalAlignment="Top" Width="527" Height="48"/>
+        <Button x:Name="btn_buscar" Content="Buscar" HorizontalAlignment="Left" Margin="564,98,0,0" VerticalAlignment="Top" Width="75" Click="btn_buscar_Click"/>
+        <TextBox x:Name="tbx_id" HorizontalAlignment="Left" Height="23" Margin="303,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_descripcion" HorizontalAlignment="Left" Height="23" Margin="303,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btn_crear" Content="Crear" HorizontalAlignment="Left" Margin="564,137,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btn_modificar" Content="Modificar" HorizontalAlignment="Left" Margin="564,174,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btn_eliminar" Content="Eliminar" HorizontalAlignment="Left" Margin="564,214,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="MANTENEDOR DE SERVICIOS EXTRA" HorizontalAlignment="Left" Margin="262,35,0,0" VerticalAlignment="Top" Width="214"/>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="241,95,0,0" VerticalAlignment="Top"/>
+        <Label Content="DESCRIPCIÓN" HorizontalAlignment="Left" Margin="194,134,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

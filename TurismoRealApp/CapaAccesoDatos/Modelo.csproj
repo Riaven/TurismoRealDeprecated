@@ -41,6 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Empleado.cs" />
+    <Compile Include="CargoEmpleado.cs" />
+    <Compile Include="Comuna.cs" />
+    <Compile Include="EstadoDepartamento.cs" />
+    <Compile Include="Nacionalidad.cs" />
+    <Compile Include="Region.cs" />
     <Compile Include="ServicioExtra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

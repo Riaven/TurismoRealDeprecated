@@ -97,6 +97,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CapaAccesoDatos\Modelo.csproj">
+      <Project>{53e026fc-d4d5-4285-9637-c33dfc2c0306}</Project>
+      <Name>Modelo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ControladorBD\ControladorBD.csproj">
       <Project>{a7d1d21b-e576-468d-8b67-fc8fc8f02a94}</Project>
       <Name>ControladorBD</Name>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace CapaAccesoDatos
+namespace Modelo
 {
     public class ServicioExtra
     {
