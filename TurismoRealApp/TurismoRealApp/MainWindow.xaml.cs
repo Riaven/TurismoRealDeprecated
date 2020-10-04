@@ -26,6 +26,12 @@ namespace TurismoRealApp
         {
             InitializeComponent();
         }
+        //métodos de ventana
+        private void LimpiarVentana()
+        {
+            tbx_descripcion.Text = string.Empty;
+            tbx_id.Text = string.Empty;
+        }
         //buscar un servicio extra
         private void btn_buscar_Click(object sender, RoutedEventArgs e)
         {
@@ -77,7 +83,7 @@ namespace TurismoRealApp
                 {
                     MessageBox.Show("Registro creado con éxito", "Registro creado", MessageBoxButton.OK);
                 }
-                Console.WriteLine(estado);
+                
                 LimpiarVentana();
             }
             else
@@ -86,11 +92,75 @@ namespace TurismoRealApp
             }
         }
 
-        //métodos de ventana
-        private void LimpiarVentana()
+        
+
+        private void btn_modificar_Click(object sender, RoutedEventArgs e)
         {
-            tbx_descripcion.Text = string.Empty; 
-            tbx_id.Text = string.Empty;
+            if (!tbx_id.Text.Equals(string.Empty) && !tbx_descripcion.Text.Equals(string.Empty))
+            {
+                int id = int.Parse(tbx_id.Text);
+                string descripcion = tbx_descripcion.Text;
+                int estado = 0;
+
+                try
+                {
+                    estado = ServicioExtraController.ModificarServicioExtra(id, descripcion);
+                    if (estado == -1)
+                    {
+                        MessageBox.Show("Error al modificar registro, problemas con BD", "Error BD", MessageBoxButton.OK);
+                    }
+                    else if (estado == 0)
+                    {
+                        MessageBox.Show("Registro no existe, no es posible modificar", "No encontrado", MessageBoxButton.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Registro modificado con éxito", "Registro modificado", MessageBoxButton.OK);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al modificar {ex}", "Error", MessageBoxButton.OK);
+                }
+                LimpiarVentana();
+            }
+            else
+            {
+                MessageBox.Show("Para modificar todos los campos deben contener datos", "Error al modificar", MessageBoxButton.OK);
+            }
+        }
+        //eliminar
+        private void btn_eliminar_Click(object sender, RoutedEventArgs e)
+        {
+            if (!tbx_id.Text.Equals(string.Empty))
+            {
+                int id = int.Parse(tbx_id.Text);
+                int estado = 0;
+                try
+                {
+                    estado = ServicioExtraController.EliminarServicioExtra(id);
+                    if (estado == -1)
+                    {
+                        MessageBox.Show("Error al eliminar registro, problemas con BD", "Error BD", MessageBoxButton.OK);
+                    }
+                    else if (estado == 0)
+                    {
+                        MessageBox.Show("Registro no existe, no es posible modificar", "No encontrado", MessageBoxButton.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Registro modificado con éxito", "Registro modificado", MessageBoxButton.OK);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al eliminar {ex}", "Error", MessageBoxButton.OK);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Para eliminar el campo ID debe contener datos", "Error al eliminar", MessageBoxButton.OK);
+            }
         }
     }
 }

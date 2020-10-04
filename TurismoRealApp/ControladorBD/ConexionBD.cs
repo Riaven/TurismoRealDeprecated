@@ -27,7 +27,7 @@ namespace ControladorBD
             }
             catch (Exception ex)
             {
-                //mensaje para desarrollo
+                Console.WriteLine($"Houston, tenemos un problema : {ex} - ConexiónBD");
             }
             return conn;
         }
