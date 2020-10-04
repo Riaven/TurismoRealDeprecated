@@ -27,7 +27,7 @@ namespace ControladorBD
             }
             catch (Exception ex)
             {
-
+                //mensaje para desarrollo
             }
             return conn;
         }
