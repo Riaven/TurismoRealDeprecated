@@ -10,7 +10,7 @@
         <Button x:Name="btn_buscar" Content="Buscar" HorizontalAlignment="Left" Margin="564,98,0,0" VerticalAlignment="Top" Width="75" Click="btn_buscar_Click"/>
         <TextBox x:Name="tbx_id" HorizontalAlignment="Left" Height="23" Margin="303,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="tbx_descripcion" HorizontalAlignment="Left" Height="23" Margin="303,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="btn_crear" Content="Crear" HorizontalAlignment="Left" Margin="564,137,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="btn_crear" Content="Crear" HorizontalAlignment="Left" Margin="564,137,0,0" VerticalAlignment="Top" Width="75" Click="btn_crear_Click"/>
         <Button x:Name="btn_modificar" Content="Modificar" HorizontalAlignment="Left" Margin="564,174,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="btn_eliminar" Content="Eliminar" HorizontalAlignment="Left" Margin="564,214,0,0" VerticalAlignment="Top" Width="75"/>
         <Label Content="MANTENEDOR DE SERVICIOS EXTRA" HorizontalAlignment="Left" Margin="262,35,0,0" VerticalAlignment="Top" Width="214"/>

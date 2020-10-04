@@ -26,7 +26,7 @@ namespace TurismoRealApp
         {
             InitializeComponent();
         }
-
+        //buscar un servicio extra
         private void btn_buscar_Click(object sender, RoutedEventArgs e)
         {
             if (!tbx_id.Text.Equals(string.Empty))
@@ -54,19 +54,43 @@ namespace TurismoRealApp
                 MessageBox.Show("Debe ingresar un ID a buscar", "Campo vacío", MessageBoxButton.OK);
             }
         }
-
+        //Crear un servicio extra
         private void btn_crear_Click(object sender, RoutedEventArgs e)
         {
             if (!tbx_id.Text.Equals(string.Empty) && !tbx_descripcion.Text.Equals(string.Empty))
             {
                 //falta controlar que el dígito no es un número
+                int id = int.Parse(tbx_id.Text);
+                string descripcion = tbx_descripcion.Text;
+                int estado = 0;
 
-
+                estado = ServicioExtraController.CrearServicioExtra(id, descripcion);
+                if(estado == -1)
+                {
+                    MessageBox.Show("Error al crear registro, problemas con BD", "Error BD", MessageBoxButton.OK);
+                }
+                else if (estado > 0)
+                {
+                    MessageBox.Show("Registro ya existente", "Id duplicada", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Registro creado con éxito", "Registro creado", MessageBoxButton.OK);
+                }
+                Console.WriteLine(estado);
+                LimpiarVentana();
             }
             else
             {
-                MessageBox.Show("Ningun campo debe estar vacío al crear un nuevo registro", "Campos vacíos", MessageBoxButton.OK);
+                MessageBox.Show("Ningún campo debe estar vacío al crear un nuevo registro", "Campos vacíos", MessageBoxButton.OK);
             }
+        }
+
+        //métodos de ventana
+        private void LimpiarVentana()
+        {
+            tbx_descripcion.Text = string.Empty; 
+            tbx_id.Text = string.Empty;
         }
     }
 }

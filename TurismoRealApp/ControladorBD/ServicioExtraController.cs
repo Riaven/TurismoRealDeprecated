@@ -80,8 +80,8 @@ namespace ControladorBD
         /// <param name="descripcion">Descripción a registrar</param>
         /// <returns>
         /// -1 si se tiene un problema con la base de datos
-        /// 0 si es que no se pudo registrar ya que el id ya existía
-        /// >0 si es que se agregó correctamente
+        /// >0 si es que no se pudo registrar ya que el id ya existía
+        /// 0 si es que se agregó correctamente
         /// </returns>
         public static int CrearServicioExtra(int id, string descripcion)
         {
@@ -103,16 +103,16 @@ namespace ControladorBD
 
                 //p_id parámetro de entrada y salida, contiene el id 
                 OracleParameter descripcion_in = new OracleParameter();
-                descripcion_in.ParameterName = "P_ID";
+                descripcion_in.ParameterName = "P_DESCRIPCION";
                 descripcion_in.OracleDbType = OracleDbType.Varchar2;
                 descripcion_in.Size = 20;
-                descripcion_in.Direction = ParameterDirection.InputOutput;
+                descripcion_in.Direction = ParameterDirection.Input;
                 descripcion_in.Value = descripcion;
                 cmd.Parameters.Add(descripcion_in);
 
                 cmd.ExecuteNonQuery();
 
-                creado = int.Parse(id_inout.ToString());
+                creado = int.Parse(id_inout.Value.ToString());
 
             }
             catch (Exception ex)
