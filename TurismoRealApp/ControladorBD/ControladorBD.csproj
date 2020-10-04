@@ -48,8 +48,8 @@
     <Compile Include="ServicioExtraController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CapaAccesoDatos\Modelo.csproj">
-      <Project>{53e026fc-d4d5-4285-9637-c33dfc2c0306}</Project>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{50d0cffe-eaae-410d-bb20-47d728296233}</Project>
       <Name>Modelo</Name>
     </ProjectReference>
   </ItemGroup>

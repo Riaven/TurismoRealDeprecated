@@ -27,7 +27,7 @@ namespace ControladorBD
             }
             catch (Exception ex)
             {
-//no se usa we
+
             }
             return conn;
         }
