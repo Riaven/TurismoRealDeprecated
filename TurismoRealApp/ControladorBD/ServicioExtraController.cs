@@ -117,7 +117,7 @@ namespace ControladorBD
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Houston, tenemos un problema : {ex}");
+                Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 creado = -1;
             }
             return creado;
@@ -157,7 +157,7 @@ namespace ControladorBD
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Houston, tenemos un problema : {ex}");
+                Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 modificado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd

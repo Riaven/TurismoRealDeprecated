@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    class Nacionalidad
+    public class Nacionalidad
     {
         private int _id_nacionalidad;
         private string _descripcion;
 
+        public Nacionalidad()
+        {
+
+        }
         public Nacionalidad(int id_nacionalidad, string descripcion)
         {
             Id_nacionalidad = id_nacionalidad;

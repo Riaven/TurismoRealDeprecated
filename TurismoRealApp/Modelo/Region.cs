@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    class Region
+    public class Region
     {
         private int _id_region;
         private string _nombre;
