@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    class Empleado
+    public class Empleado
     {
         private int _id_empleado;
         private string _rut_func;

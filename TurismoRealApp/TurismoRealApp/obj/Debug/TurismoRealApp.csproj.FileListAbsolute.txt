@@ -19,3 +19,5 @@ C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\TurismoRealApp\obj\Debug\
 C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\TurismoRealApp\obj\Debug\TurismoRealApp.pdb
 C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\TurismoRealApp\bin\Debug\Modelo.dll
 C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\TurismoRealApp\bin\Debug\Modelo.pdb
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\TurismoRealApp\obj\Debug\CrearCliente.g.cs
+C:\Users\jogub\source\repos\TurismoReal\TurismoRealApp\TurismoRealApp\obj\Debug\CrearCliente.baml

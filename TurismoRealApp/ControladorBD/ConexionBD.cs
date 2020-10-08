@@ -18,11 +18,10 @@ namespace ControladorBD
         //abrir conexión y retorna la instancia
         public static OracleConnection AbrirConexion()
         {
-            string connection_string = ConfigurationManager.ConnectionStrings["OracleBD"].ConnectionString;
-            conn = new OracleConnection(connection_string);
-
             try
             {
+                string connection_string = ConfigurationManager.ConnectionStrings["OracleBD"].ConnectionString;
+                conn = new OracleConnection(connection_string);
                 conn.Open();
             }
             catch (Exception ex)

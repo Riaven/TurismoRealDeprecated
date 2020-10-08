@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    class EstadoDepartamento
+    public class EstadoDepartamento
     {
         private int _id_departamento;
         private string _descripcion;
