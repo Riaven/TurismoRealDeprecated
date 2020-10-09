@@ -11,6 +11,10 @@ namespace Modelo
         private int _id_region;
         private string _nombre;
 
+        public Region()
+        {
+
+        }
         public Region(int id_region, string nombre)
         {
             Id_region = id_region;

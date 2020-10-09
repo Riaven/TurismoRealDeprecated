@@ -52,6 +52,7 @@
     <Compile Include="EstadoDepartamentoController.cs" />
     <Compile Include="NacionalidadController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegionController.cs" />
     <Compile Include="ServicioExtraController.cs" />
   </ItemGroup>
   <ItemGroup>

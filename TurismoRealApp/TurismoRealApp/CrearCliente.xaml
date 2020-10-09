@@ -5,36 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TurismoRealApp"
         mc:Ignorable="d"
-        Title="CrearCliente" Height="450" Width="800">
+        Title="CrearCliente" Height="881.864" Width="800">
     <Grid>
-        <Button x:Name="btn_crear" Content="Crear" HorizontalAlignment="Left" Margin="642,105,0,0" VerticalAlignment="Top" Width="93" Height="39"/>
-        <ComboBox x:Name="cbx_comuna" HorizontalAlignment="Left" Margin="197,270,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="cbx_nacionalidad" HorizontalAlignment="Left" Margin="480,357,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="cbx_region" HorizontalAlignment="Left" Margin="197,316,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_id" HorizontalAlignment="Left" Height="23" Margin="197,91,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_rut" HorizontalAlignment="Left" Height="23" Margin="197,130,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_nombre" HorizontalAlignment="Left" Height="23" Margin="197,174,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_primer_ape" HorizontalAlignment="Left" Height="23" Margin="197,218,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_segundo_ape" HorizontalAlignment="Left" Height="23" Margin="480,85,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_direccion" HorizontalAlignment="Left" Height="23" Margin="480,124,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_telefono" HorizontalAlignment="Left" Height="23" Margin="480,168,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_fecha_nac" HorizontalAlignment="Left" Height="23" Margin="480,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbx_correo" HorizontalAlignment="Left" Height="23" Margin="480,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="cbx_frecuente" HorizontalAlignment="Left" Margin="480,310,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="ID " HorizontalAlignment="Left" Margin="128,90,0,0" VerticalAlignment="Top"/>
-        <Label Content="RUT" HorizontalAlignment="Left" Margin="128,130,0,0" VerticalAlignment="Top"/>
-        <Label Content="NOMBRE" HorizontalAlignment="Left" Margin="101,174,0,0" VerticalAlignment="Top"/>
-        <Label Content="APELLIDO PATERNO" HorizontalAlignment="Left" Margin="47,217,0,0" VerticalAlignment="Top"/>
-        <Label Content="APELLIDO MATERNO" HorizontalAlignment="Left" Margin="343,85,0,0" VerticalAlignment="Top"/>
-        <Label Content="DIRECCIÓN" HorizontalAlignment="Left" Margin="393,124,0,0" VerticalAlignment="Top"/>
-        <Label Content="TELEFONO" HorizontalAlignment="Left" Margin="397,168,0,0" VerticalAlignment="Top"/>
-        <Label Content="REGIÓN" HorizontalAlignment="Left" Margin="110,316,0,0" VerticalAlignment="Top"/>
-        <Label Content="COMUNA" HorizontalAlignment="Left" Margin="101,266,0,0" VerticalAlignment="Top" />
-        <Label Content="FECHA NAC" HorizontalAlignment="Left" Margin="391,212,0,0" VerticalAlignment="Top"/>
-        <Label Content="CORREO" HorizontalAlignment="Left" Margin="408,252,0,0" VerticalAlignment="Top"/>
-        <Label Content="FRECUENTE" HorizontalAlignment="Left" Margin="391,310,0,0" VerticalAlignment="Top"/>
-        <Label Content="NACIONALIDAD" HorizontalAlignment="Left" Margin="368,357,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn_crear" Content="Crear" HorizontalAlignment="Left" Margin="645,129,0,0" VerticalAlignment="Top" Width="93" Height="39" Click="btn_crear_Click"/>
+        <ComboBox x:Name="cbx_comuna" HorizontalAlignment="Left" Margin="174,338,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbx_nacionalidad" HorizontalAlignment="Left" Margin="457,381,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbx_region" HorizontalAlignment="Left" Margin="174,303,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_id" HorizontalAlignment="Left" Height="23" Margin="174,115,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_rut" HorizontalAlignment="Left" Height="23" Margin="174,154,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_nombre" HorizontalAlignment="Left" Height="23" Margin="174,198,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_primer_ape" HorizontalAlignment="Left" Height="23" Margin="174,242,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_segundo_ape" HorizontalAlignment="Left" Height="23" Margin="457,109,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_direccion" HorizontalAlignment="Left" Height="39" Margin="457,148,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_telefono" HorizontalAlignment="Left" Height="23" Margin="457,192,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbx_correo" HorizontalAlignment="Left" Height="23" Margin="457,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cbx_frecuente" HorizontalAlignment="Left" Margin="457,334,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="ID " HorizontalAlignment="Left" Margin="105,114,0,0" VerticalAlignment="Top"/>
+        <Label Content="RUT" HorizontalAlignment="Left" Margin="105,154,0,0" VerticalAlignment="Top"/>
+        <Label Content="NOMBRE" HorizontalAlignment="Left" Margin="78,198,0,0" VerticalAlignment="Top"/>
+        <Label Content="APELLIDO PATERNO" HorizontalAlignment="Left" Margin="24,241,0,0" VerticalAlignment="Top"/>
+        <Label Content="APELLIDO MATERNO" HorizontalAlignment="Left" Margin="320,109,0,0" VerticalAlignment="Top"/>
+        <Label Content="DIRECCIÓN" HorizontalAlignment="Left" Margin="370,148,0,0" VerticalAlignment="Top"/>
+        <Label Content="TELEFONO" HorizontalAlignment="Left" Margin="374,192,0,0" VerticalAlignment="Top"/>
+        <Label Content="REGIÓN" HorizontalAlignment="Left" Margin="87,303,0,0" VerticalAlignment="Top"/>
+        <Label Content="COMUNA" HorizontalAlignment="Left" Margin="78,334,0,0" VerticalAlignment="Top" />
+        <Label Content="FECHA NAC" HorizontalAlignment="Left" Margin="368,236,0,0" VerticalAlignment="Top"/>
+        <Label Content="CORREO" HorizontalAlignment="Left" Margin="385,276,0,0" VerticalAlignment="Top"/>
+        <Label Content="FRECUENTE" HorizontalAlignment="Left" Margin="368,334,0,0" VerticalAlignment="Top"/>
+        <Label Content="NACIONALIDAD" HorizontalAlignment="Left" Margin="345,381,0,0" VerticalAlignment="Top"/>
         <Label Content="MANTENCIÓN CLIENTES" HorizontalAlignment="Left" Margin="300,10,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="dp_fecha_nac" HorizontalAlignment="Left" Margin="457,236,0,0" VerticalAlignment="Top" Width="120"/>
+        <DataGrid x:Name="gv_lista_cliente" HorizontalAlignment="Left" Height="387" Margin="23,440,0,0" VerticalAlignment="Top" Width="745" Loaded="gv_lista_cliente_Loaded"/>
+        <Button x:Name="btn_eliminar" Content="Eliminar" HorizontalAlignment="Left" Margin="645,190,0,0" VerticalAlignment="Top" Width="93" Height="39" Click="btn_eliminar_Click"/>
+        <Button x:Name="btn_buscar" Content="Buscar" HorizontalAlignment="Left" Margin="645,260,0,0" VerticalAlignment="Top" Width="93" Height="39" Click="btn_buscar_Click"/>
+        <Button x:Name="btn_modificar" Content="Modificar" HorizontalAlignment="Left" Margin="645,338,0,0" VerticalAlignment="Top" Width="93" Height="39" Click="btn_modificar_Click"/>
 
     </Grid>
 </Window>

@@ -11,6 +11,11 @@ namespace Modelo
         private int _id_comuna;
         private string _nombre;
 
+        public Comuna()
+        {
+
+        }
+
         public Comuna(int id_comuna, string nombre)
         {
             this._id_comuna = id_comuna;

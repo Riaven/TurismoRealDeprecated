@@ -48,6 +48,7 @@ namespace ControladorBD
             {
                 Console.WriteLine($"Me caí we en cargar la lista de nacionalidades {ex}");
             }
+            conn.Close();
             return nacionalidades;
         }
     }

@@ -68,7 +68,7 @@ namespace ControladorBD
 
             }
             conn.Close(); //cierra la conexión
-            //return servicio_extra;
+            
             return servicio_extra;
         }
 
@@ -120,6 +120,7 @@ namespace ControladorBD
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 creado = -1;
             }
+            conn.Close();
             return creado;
         }
         //Llamada a modificar
@@ -157,12 +158,13 @@ namespace ControladorBD
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
+                Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Modificar");
                 modificado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd
             // 0 cuando no se encontró con el id solicitado, no fue posible modificar
             // x>0 cuando si encuentre, entonces es posible modificar
+            conn.Close();
             return modificado;
         }
 
@@ -198,6 +200,7 @@ namespace ControladorBD
             //-1 cuando se tenga un problema con conexionbd
             // 0 cuando no se encontró con el id solicitado, no fue posible eliminar
             // x>0 cuando si encuentre, entonces es posible eliminar
+            conn.Close();
             return eliminado; 
         }
 
