@@ -22,6 +22,11 @@ namespace Modelo
         private CargoEmpleado _cargo_empleado;
         private Nacionalidad _nacionalidad;
 
+        public Empleado()
+        {
+             
+        }
+
         public Empleado(int id_empleado, string rut_func, string nombre_func, string primer_ape_func, string segundo_ape_func, DateTime fecha_nac_func, string direccion, string telefono, string correo, int sueldo, DateTime fecha_contrato, CargoEmpleado cargo_empleado, Nacionalidad nacionalidad)
         {
             Id_empleado = id_empleado;
@@ -50,7 +55,7 @@ namespace Modelo
         public string Correo { get => _correo; set => _correo = value; }
         public int Sueldo { get => _sueldo; set => _sueldo = value; }
         public DateTime Fecha_contrato { get => _fecha_contrato; set => _fecha_contrato = value; }
-        internal CargoEmpleado Cargo_empleado { get => _cargo_empleado; set => _cargo_empleado = value; }
-        internal Nacionalidad Nacionalidad { get => _nacionalidad; set => _nacionalidad = value; }
+        public CargoEmpleado Cargo_empleado { get => _cargo_empleado; set => _cargo_empleado = value; }
+        public Nacionalidad Nacionalidad { get => _nacionalidad; set => _nacionalidad = value; }
     }
 }

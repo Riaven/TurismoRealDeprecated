@@ -8,16 +8,20 @@ namespace Modelo
 {
     public class EstadoDepartamento
     {
-        private int _id_departamento;
+        private int _id_estado_departamento;
         private string _descripcion;
 
-        public EstadoDepartamento(int id_departamento, string descripcion)
+        public EstadoDepartamento()
         {
-            this._id_departamento = id_departamento;
-            this._descripcion = descripcion;
         }
 
-        public int Id_departamento { get => _id_departamento; set => _id_departamento = value; }
+        public EstadoDepartamento(int id_estado_departamento, string descripcion)
+        {
+            Id_estado_departamento = id_estado_departamento;
+            Descripcion = descripcion;
+        }
+
+        public int Id_estado_departamento { get => _id_estado_departamento; set => _id_estado_departamento = value; }
         public string Descripcion { get => _descripcion; set => _descripcion = value; }
     }
 }

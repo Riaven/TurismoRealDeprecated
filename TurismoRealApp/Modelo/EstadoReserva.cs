@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    public class Nacionalidad
+    public class EstadoReserva
     {
-        private int _id_nacionalidad;
+        private int _id_estado_reserva;
         private string _descripcion;
 
-        public Nacionalidad()
+        public EstadoReserva()
         {
 
         }
 
-        public Nacionalidad(int id_nacionalidad, string descripcion)
+        public EstadoReserva(int id_estado_reserva, string descripcion)
         {
-            Id_nacionalidad = id_nacionalidad;
+            Id_estado_reserva = id_estado_reserva;
             Descripcion = descripcion;
         }
 
-        public int Id_nacionalidad { get => _id_nacionalidad; set => _id_nacionalidad = value; }
+        public int Id_estado_reserva { get => _id_estado_reserva; set => _id_estado_reserva = value; }
         public string Descripcion { get => _descripcion; set => _descripcion = value; }
     }
 }

@@ -19,22 +19,31 @@ namespace ControladorBD
 
 
         //método buscar
+        //falta agregar buscar por demás atributos
         public static Departamento BuscarDepartamento(int id)
         {
-            List<Departamento> departamentos = (from departamento in ListarDepartamento() where departamento.Id_departamento == id select departamento).ToList();
-            return departamentos[0];
+            if (ListarDepartamento().Count > 0)
+            {
+                List<Departamento> departamentos = (from departamento in ListarDepartamento() where departamento.Id_departamento == id select departamento).ToList();
+
+                return departamentos.Count > 0 ? departamentos[0] : null;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //método crear
-        public static int CrearDepartamento( int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, int inventario, string funcionario, ServicioExtra servicio_extra)
+        public static int CrearDepartamento( int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, Inventario inventario, Empleado funcionario, ServicioExtra servicio_extra)
         {
 
             conn = ConexionBD.AbrirConexion();
             int creado = 0;
-            
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_CREAR_DEPARTAMENTO", conn);
+                cmd = new OracleCommand("SP_CREAR_DEPARTAMENTO", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -42,7 +51,7 @@ namespace ControladorBD
                 OracleParameter id_inout = new OracleParameter();
                 id_inout.ParameterName = "P_ID";
                 id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.InputOutput;
+                id_inout.Direction = ParameterDirection.Input;
                 id_inout.Value = id_departamento;
                 cmd.Parameters.Add(id_inout);
 
@@ -113,7 +122,7 @@ namespace ControladorBD
                 estado_in.ParameterName = "P_ESTADO";
                 estado_in.OracleDbType = OracleDbType.Int32;
                 estado_in.Direction = ParameterDirection.Input;
-                estado_in.Value = 1;
+                estado_in.Value = estado_departamento.Id_estado_departamento;
                 cmd.Parameters.Add(estado_in);
 
                 //region
@@ -138,7 +147,7 @@ namespace ControladorBD
                 inventario_in.ParameterName = "P_INVENTARIO";
                 inventario_in.OracleDbType = OracleDbType.Int32;
                 inventario_in.Direction = ParameterDirection.Input;
-                inventario_in.Value = 1;
+                inventario_in.Value = inventario.Id_inventario;
                 cmd.Parameters.Add(inventario_in);
 
                 //funcionario
@@ -146,7 +155,7 @@ namespace ControladorBD
                 funcionario_in.ParameterName = "P_FUNCIONARIO";
                 funcionario_in.OracleDbType = OracleDbType.Int32;
                 funcionario_in.Direction = ParameterDirection.Input;
-                funcionario_in.Value = 1;
+                funcionario_in.Value = funcionario.Id_empleado;
                 cmd.Parameters.Add(funcionario_in);
 
                 //servicio extra
@@ -157,9 +166,16 @@ namespace ControladorBD
                 servicio_extra_in.Value = servicio_extra.Id_servicio_extra;
                 cmd.Parameters.Add(servicio_extra_in);
 
+                //retorna filas afectadas 
+                OracleParameter affected_out = new OracleParameter();
+                affected_out.ParameterName = "P_AFFECTED";
+                affected_out.OracleDbType = OracleDbType.Int32;
+                affected_out.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(affected_out);
+
                 cmd.ExecuteNonQuery();
 
-                creado = int.Parse(id_inout.Value.ToString());
+                creado = int.Parse(affected_out.Value.ToString());
 
             }
             catch (Exception ex)
@@ -167,7 +183,9 @@ namespace ControladorBD
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - DepartamentoController/Crear");
                 creado = -1;
             }
+            cmd.Parameters.Clear();
             conn.Close();
+            conn.Dispose();
             return creado;
         }
 
@@ -175,10 +193,11 @@ namespace ControladorBD
         public static int EliminarDepartamento(int id)
         {
             conn = ConexionBD.AbrirConexion();
+            OracleCommand cmd = null;
             int eliminado = 0;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_ELIMINAR_DEPARTAMENTO", conn);
+                cmd = new OracleCommand("SP_ELIMINAR_DEPARTAMENTO", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -186,14 +205,20 @@ namespace ControladorBD
                 OracleParameter id_inout = new OracleParameter();
                 id_inout.ParameterName = "P_ID";
                 id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.InputOutput;
+                id_inout.Direction = ParameterDirection.Input;
                 id_inout.Value = id;
                 cmd.Parameters.Add(id_inout);
 
+                //retorna filas afectadas 
+                OracleParameter affected_out = new OracleParameter();
+                affected_out.ParameterName = "P_AFFECTED";
+                affected_out.OracleDbType = OracleDbType.Int32;
+                affected_out.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(affected_out);
+
                 cmd.ExecuteNonQuery();
 
-                eliminado = int.Parse(id_inout.Value.ToString());
-
+                eliminado = int.Parse(affected_out.Value.ToString());
             }
             catch (Exception ex)
             {
@@ -201,21 +226,24 @@ namespace ControladorBD
                 eliminado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd
-            // 0 cuando no se encontró con el id solicitado, no fue posible eliminar
-            // x>0 cuando si encuentre, entonces es posible eliminar
+            // 0 fila no afectada
+            // 1 fila afectada
+            cmd.Parameters.Clear();
             conn.Close();
+            conn.Dispose();
             return eliminado;
         }
         //método modificar
 
-        public static int ModificarDepartamento(int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, int inventario, string funcionario, ServicioExtra servicio_extra)
+        public static int ModificarDepartamento(int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, Inventario inventario, Empleado funcionario, ServicioExtra servicio_extra)
         {
 
             conn = ConexionBD.AbrirConexion();
             int modificado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_MODIFICAR_DEPARTAMENTO", conn);
+                cmd = new OracleCommand("SP_MODIFICAR_DEPARTAMENTO", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -328,7 +356,7 @@ namespace ControladorBD
                 funcionario_in.ParameterName = "P_FUNCIONARIO";
                 funcionario_in.OracleDbType = OracleDbType.Int32;
                 funcionario_in.Direction = ParameterDirection.Input;
-                funcionario_in.Value = 1;
+                funcionario_in.Value = funcionario.Id_empleado;
                 cmd.Parameters.Add(funcionario_in);
 
                 //servicio extra
@@ -339,9 +367,16 @@ namespace ControladorBD
                 servicio_extra_in.Value = servicio_extra.Id_servicio_extra;
                 cmd.Parameters.Add(servicio_extra_in);
 
+                //retorna filas afectadas 
+                OracleParameter affected_out = new OracleParameter();
+                affected_out.ParameterName = "P_AFFECTED";
+                affected_out.OracleDbType = OracleDbType.Int32;
+                affected_out.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(affected_out);
+
                 cmd.ExecuteNonQuery();
 
-                modificado = int.Parse(id_inout.Value.ToString());
+                modificado = int.Parse(affected_out.Value.ToString());
 
             }
             catch (Exception ex)
@@ -349,10 +384,12 @@ namespace ControladorBD
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Modificar");
                 modificado = -1;
             }
-            //-1 cuando se tenga un problema con conexionbd
-            // 0 cuando no se encontró con el id solicitado, no fue posible modificar
-            // x>0 cuando si encuentre, entonces es posible modificar
+            cmd.Parameters.Clear();
             conn.Close();
+            conn.Dispose();
+            //-1 cuando se tenga un problema con conexionbd
+            // 0 ninguna fila fue afectada
+            // 1 cuando la fila ha sido afectada
             return modificado;
         }
 
@@ -361,11 +398,12 @@ namespace ControladorBD
         public static List<Departamento> ListarDepartamento()
         {
             List<Departamento> departamentos = new List<Departamento>();
+            OracleCommand cmd = null;
             try
             {
                 conn = ConexionBD.AbrirConexion();
                 //buscar la función
-                OracleCommand cmd = new OracleCommand("FN_LISTAR_DEPARTAMENTO", conn);
+                cmd = new OracleCommand("FN_LISTAR_DEPARTAMENTO", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 OracleParameter lista_departamento = new OracleParameter();
                 lista_departamento.ParameterName = "CUR_LISTAR_DEPARTAMENTO";
@@ -381,7 +419,7 @@ namespace ControladorBD
                 //cargamos los datos externos
                 List<Comuna> comunas = ComunaController.ListarComuna();
                 List<Region> regiones = RegionController.ListarRegion();
-                List<Nacionalidad> nacionalidades = NacionalidadController.ListarNacionalidad();
+                //estado_departamento
 
 
 
@@ -389,22 +427,9 @@ namespace ControladorBD
                 {
                     List<Comuna> comuna_cliente = (from comuna in comunas where comuna.Id_comuna == lector.GetInt32(10) select comuna).ToList();
                     List<Region> region_cliente = (from region in regiones where region.Id_region == lector.GetInt32(11) select region).ToList();
-                    List<Nacionalidad> nacionalidad_cliente = (from nacionalidad in nacionalidades where nacionalidad.Id_nacionalidad == lector.GetInt32(12) select nacionalidad).ToList();
+                    
 
-                    Cliente cliente = new Cliente();
-                    cliente.Id_cliente = lector.GetInt32(0);
-                    cliente.Rut = lector.GetString(1);
-                    cliente.Nombre = lector.GetString(2);
-                    cliente.Primer_ape = lector.GetString(3);
-                    cliente.Segundo_ape = lector.GetString(4);
-                    cliente.Direccion = lector.GetString(5);
-                    cliente.Telefono = lector.GetString(6);
-                    cliente.Fecha_nac = lector.GetDateTime(7);
-                    cliente.Correo = lector.GetString(8);
-                    cliente.Frecuente = lector.GetInt32(9);
-                    cliente.Comuna = comuna_cliente[0];
-                    cliente.Region = region_cliente[0];
-                    cliente.Nacionalidad = nacionalidad_cliente[0];
+                    
                     //departamentos.Add(cliente);
                 }
 
@@ -413,6 +438,9 @@ namespace ControladorBD
             {
                 Console.WriteLine($"Houston, tenemos un problema : {ex}");
             }
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return departamentos;
         }
 

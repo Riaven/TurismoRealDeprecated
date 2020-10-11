@@ -11,6 +11,10 @@ namespace Modelo
         private int _id_cargo;
         private string _descripcion;
 
+        public CargoEmpleado()
+        {
+        }
+
         public CargoEmpleado(int id_cargo, string descripcion)
         {
             Id_cargo = id_cargo;

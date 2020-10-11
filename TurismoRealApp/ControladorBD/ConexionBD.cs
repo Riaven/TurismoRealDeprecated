@@ -15,7 +15,7 @@ namespace ControladorBD
     {
         private static OracleConnection conn = null;
         
-        //abrir conexión y retorna la instancia
+        //abrir conexión y retorna la instancia conexión
         public static OracleConnection AbrirConexion()
         {
             try
@@ -30,8 +30,5 @@ namespace ControladorBD
             }
             return conn;
         }
-
-        
-        
     }
 }

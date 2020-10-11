@@ -19,21 +19,27 @@ namespace ControladorBD
 
 
         //método buscar
+        //FALTA AGREGAR BUSCAR POR NOMBRE O RUT
         public static Cliente BuscarCliente(int id)
         {
-            List<Cliente> clientes = (from cliente in ListarCliente() where cliente.Id_cliente == id select cliente).ToList();
-            return clientes[0];
+            if(ListarCliente() != null)
+            {
+                List<Cliente> clientes = (from cliente in ListarCliente() where cliente.Id_cliente == id select cliente).ToList();
+                return clientes.Count > 0 ? clientes[0] : null;
+            }
+            else
+            {
+                Console.WriteLine("Lista de clientes vacía");
+                return null;                
+            }
+            
         }
 
         //método crear
-        public static int CrearCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, int comuna, int region, int nacionalidad)
+        public static int CrearCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, Comuna comuna, Region region, Nacionalidad nacionalidad)
         {
-
             conn = ConexionBD.AbrirConexion();
             int creado = 0;
-            //int comuna_id = comuna.Id_comuna;
-            //int region_id = region.Id_region;
-            //int nacionalidad_id = nacionalidad.Id_nacionalidad;
             try
             {
                 OracleCommand cmd = new OracleCommand("SP_CREAR_CLIENTE", conn);
@@ -44,7 +50,7 @@ namespace ControladorBD
                 OracleParameter id_inout = new OracleParameter();
                 id_inout.ParameterName = "P_ID";
                 id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.InputOutput;
+                id_inout.Direction = ParameterDirection.Input;
                 id_inout.Value = id_cliente;
                 cmd.Parameters.Add(id_inout);
 
@@ -135,7 +141,7 @@ namespace ControladorBD
                 comuna_in.ParameterName = "P_COMUNA";
                 comuna_in.OracleDbType = OracleDbType.Int32;
                 comuna_in.Direction = ParameterDirection.Input;
-                comuna_in.Value = comuna;
+                comuna_in.Value = comuna.Id_comuna;
                 cmd.Parameters.Add(comuna_in);
 
                 //id_region
@@ -143,7 +149,7 @@ namespace ControladorBD
                 region_in.ParameterName = "P_REGION";
                 region_in.OracleDbType = OracleDbType.Int32;
                 region_in.Direction = ParameterDirection.Input;
-                region_in.Value = region;
+                region_in.Value = region.Id_region;
                 cmd.Parameters.Add(region_in);
 
                 //id_nacionalidad
@@ -151,20 +157,30 @@ namespace ControladorBD
                 nacionalidad_in.ParameterName = "P_NACIONALIDAD";
                 nacionalidad_in.OracleDbType = OracleDbType.Int32;
                 nacionalidad_in.Direction = ParameterDirection.Input;
-                nacionalidad_in.Value = nacionalidad;
+                nacionalidad_in.Value = nacionalidad.Id_nacionalidad;
                 cmd.Parameters.Add(nacionalidad_in);
+
+                //retorna filas afectadas 
+                OracleParameter affected_out = new OracleParameter();
+                affected_out.ParameterName = "P_AFFECTED";
+                affected_out.OracleDbType = OracleDbType.Int32;
+                affected_out.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(affected_out);
 
                 cmd.ExecuteNonQuery();
 
-                creado = int.Parse(id_inout.Value.ToString());
+                creado = int.Parse(affected_out.Value.ToString());
 
+                cmd.Parameters.Clear();
+                conn.Close();
+                conn.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 creado = -1;
             }
-            conn.Close();
+           
             return creado;
         }
 
@@ -183,14 +199,24 @@ namespace ControladorBD
                 OracleParameter id_inout = new OracleParameter();
                 id_inout.ParameterName = "P_ID";
                 id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.InputOutput;
+                id_inout.Direction = ParameterDirection.Input;
                 id_inout.Value = id;
                 cmd.Parameters.Add(id_inout);
 
+                //retorna filas afectadas 
+                OracleParameter affected_out = new OracleParameter();
+                affected_out.ParameterName = "P_AFFECTED";
+                affected_out.OracleDbType = OracleDbType.Int32;
+                affected_out.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(affected_out);
+
                 cmd.ExecuteNonQuery();
 
-                eliminado = int.Parse(id_inout.Value.ToString());
+                eliminado = int.Parse(affected_out.Value.ToString());
 
+                cmd.Parameters.Clear();
+                conn.Close();
+                conn.Dispose();
             }
             catch (Exception ex)
             {
@@ -198,14 +224,14 @@ namespace ControladorBD
                 eliminado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd
-            // 0 cuando no se encontró con el id solicitado, no fue posible eliminar
-            // x>0 cuando si encuentre, entonces es posible eliminar
-            conn.Close();
+            // 0 cuando ninguna fila ha sido afectada
+            // 1 cuando una fila ha sido afectada
+            
             return eliminado;
         }
         //método modificar
 
-        public static int ModificarCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, int comuna, int region, int nacionalidad)
+        public static int ModificarCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, Comuna comuna, Region region, Nacionalidad nacionalidad)
         {
 
             conn = ConexionBD.AbrirConexion();
@@ -217,11 +243,10 @@ namespace ControladorBD
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
                 //p_id parámetro de entrada y salida, contiene el id 
-                //p_id parámetro de entrada y salida, contiene el id 
                 OracleParameter id_inout = new OracleParameter();
                 id_inout.ParameterName = "P_ID";
                 id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.InputOutput;
+                id_inout.Direction = ParameterDirection.Input;
                 id_inout.Value = id_cliente;
                 cmd.Parameters.Add(id_inout);
 
@@ -284,7 +309,7 @@ namespace ControladorBD
 
                 //fecha_nac
                 OracleParameter fecha_nac_in = new OracleParameter();
-                fecha_nac_in.ParameterName = "P_TELEFONO";
+                fecha_nac_in.ParameterName = "P_FECHA_NAC";
                 fecha_nac_in.OracleDbType = OracleDbType.Date;
                 fecha_nac_in.Direction = ParameterDirection.Input;
                 fecha_nac_in.Value = fecha_nac;
@@ -312,7 +337,7 @@ namespace ControladorBD
                 comuna_in.ParameterName = "P_COMUNA";
                 comuna_in.OracleDbType = OracleDbType.Int32;
                 comuna_in.Direction = ParameterDirection.Input;
-                comuna_in.Value = comuna;
+                comuna_in.Value = comuna.Id_comuna;
                 cmd.Parameters.Add(comuna_in);
 
                 //id_region
@@ -320,7 +345,7 @@ namespace ControladorBD
                 region_in.ParameterName = "P_REGION";
                 region_in.OracleDbType = OracleDbType.Int32;
                 region_in.Direction = ParameterDirection.Input;
-                region_in.Value = region;
+                region_in.Value = region.Id_region;
                 cmd.Parameters.Add(region_in);
 
                 //id_nacionalidad
@@ -328,12 +353,24 @@ namespace ControladorBD
                 nacionalidad_in.ParameterName = "P_NACIONALIDAD";
                 nacionalidad_in.OracleDbType = OracleDbType.Int32;
                 nacionalidad_in.Direction = ParameterDirection.Input;
-                nacionalidad_in.Value = nacionalidad;
+                nacionalidad_in.Value = nacionalidad.Id_nacionalidad;
                 cmd.Parameters.Add(nacionalidad_in);
+
+                //retorna filas afectadas 
+                OracleParameter affected_out = new OracleParameter();
+                affected_out.ParameterName = "P_AFFECTED";
+                affected_out.OracleDbType = OracleDbType.Int32;
+                affected_out.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(affected_out);
+
                 cmd.ExecuteNonQuery();
 
-                modificado = int.Parse(id_inout.Value.ToString());
+                modificado = int.Parse(affected_out.Value.ToString());
 
+
+                cmd.Parameters.Clear();
+                conn.Close();
+                conn.Dispose();
             }
             catch (Exception ex)
             {
@@ -341,9 +378,9 @@ namespace ControladorBD
                 modificado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd
-            // 0 cuando no se encontró con el id solicitado, no fue posible modificar
-            // x>0 cuando si encuentre, entonces es posible modificar
-            conn.Close();
+            // 0 cuando ninguna fila a sido afectada
+            // 1 cuando una fila fue afectada
+            
             return modificado;
         }
 
@@ -370,13 +407,13 @@ namespace ControladorBD
                 //rescatando la data
                 OracleDataReader lector = ((OracleRefCursor)lista_cliente.Value).GetDataReader();
                 //cargamos los datos externos
+
+                //FALTARÍA AGREGAR VALIDACION EN CASO QUE ESTOS NO CARGEN
                 List<Comuna> comunas = ComunaController.ListarComuna();
                 List<Region> regiones = RegionController.ListarRegion();
                 List<Nacionalidad> nacionalidades = NacionalidadController.ListarNacionalidad();
 
-                
-
-                while (lector.Read())
+                while (lector.Read()) // se rescatan todos los datos
                 {
                     List<Comuna> comuna_cliente = (from comuna in comunas where comuna.Id_comuna == lector.GetInt32(10) select comuna).ToList();
                     List<Region> region_cliente = (from region in regiones where region.Id_region == lector.GetInt32(11) select region).ToList();
@@ -399,15 +436,18 @@ namespace ControladorBD
                     clientes.Add(cliente);
                 }
 
+                cmd.Parameters.Clear();
+                lector.Close();
+                conn.Close();
+                conn.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Houston, tenemos un problema en listar cliente : {ex}");
+                return null; // en caso de haber un error
             }
+
             return clientes;
         }
-
-
-
     }
 }

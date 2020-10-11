@@ -18,8 +18,8 @@ namespace Modelo
 
         public Comuna(int id_comuna, string nombre)
         {
-            this._id_comuna = id_comuna;
-            this._nombre = nombre;
+            Id_comuna = id_comuna;
+            Nombre = nombre;
         }
 
         public int Id_comuna { get => _id_comuna; set => _id_comuna = value; }

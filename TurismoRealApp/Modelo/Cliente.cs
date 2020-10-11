@@ -8,19 +8,19 @@ namespace Modelo
 {
     public class Cliente
     {
-        private int id_cliente;
-        private string rut;
-        private string nombre;
-        private string primer_ape;
-        private string segundo_ape;
-        private string direccion;
-        private string telefono;
-        private DateTime fecha_nac;
-        private string correo;
-        private int frecuente;
-        Comuna comuna;
-        Region region;
-        Nacionalidad nacionalidad;
+        private int _id_cliente;
+        private string _rut;
+        private string _nombre;
+        private string _primer_ape;
+        private string _segundo_ape;
+        private string _direccion;
+        private string _telefono;
+        private DateTime _fecha_nac;
+        private string _correo;
+        private int _frecuente;
+        Comuna _comuna;
+        Region _region;
+        Nacionalidad _nacionalidad;
 
         public Cliente()
         {
@@ -29,33 +29,33 @@ namespace Modelo
 
         public Cliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, Comuna comuna, Region region, Nacionalidad nacionalidad)
         {
-            this.id_cliente = id_cliente;
-            this.rut = rut;
-            this.nombre = nombre;
-            this.primer_ape = primer_ape;
-            this.segundo_ape = segundo_ape;
-            this.direccion = direccion;
-            this.telefono = telefono;
-            this.fecha_nac = fecha_nac;
-            this.correo = correo;
-            this.frecuente = frecuente;
-            this.comuna = comuna;
-            this.region = region;
-            this.nacionalidad = nacionalidad;
+            Id_cliente = id_cliente;
+            Rut = rut;
+            Nombre = nombre;
+            Primer_ape = primer_ape;
+            Segundo_ape = segundo_ape;
+            Direccion = direccion;
+            Telefono = telefono;
+            Fecha_nac = fecha_nac;
+            Correo = correo;
+            Frecuente = frecuente;
+            Comuna = comuna;
+            Region = region;
+            Nacionalidad = nacionalidad;
         }
 
-        public int Id_cliente { get => id_cliente; set => id_cliente = value; }
-        public string Rut { get => rut; set => rut = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Primer_ape { get => primer_ape; set => primer_ape = value; }
-        public string Segundo_ape { get => segundo_ape; set => segundo_ape = value; }
-        public string Direccion { get => direccion; set => direccion = value; }
-        public string Telefono { get => telefono; set => telefono = value; }
-        public DateTime Fecha_nac { get => fecha_nac; set => fecha_nac = value; }
-        public string Correo { get => correo; set => correo = value; }
-        public int Frecuente { get => frecuente; set => frecuente = value; }
-        public Comuna Comuna { get => comuna; set => comuna = value; }
-        public Region Region { get => region; set => region = value; }
-        public Nacionalidad Nacionalidad { get => nacionalidad; set => nacionalidad = value; }
+        public int Id_cliente { get => _id_cliente; set => _id_cliente = value; }
+        public string Rut { get => _rut; set => _rut = value; }
+        public string Nombre { get => _nombre; set => _nombre = value; }
+        public string Primer_ape { get => _primer_ape; set => _primer_ape = value; }
+        public string Segundo_ape { get => _segundo_ape; set => _segundo_ape = value; }
+        public string Direccion { get => _direccion; set => _direccion = value; }
+        public string Telefono { get => _telefono; set => _telefono = value; }
+        public DateTime Fecha_nac { get => _fecha_nac; set => _fecha_nac = value; }
+        public string Correo { get => _correo; set => _correo = value; }
+        public int Frecuente { get => _frecuente; set => _frecuente = value; }
+        public Comuna Comuna { get => _comuna; set => _comuna = value; }
+        public Region Region { get => _region; set => _region = value; }
+        public Nacionalidad Nacionalidad { get => _nacionalidad; set => _nacionalidad = value; }
     }
 }

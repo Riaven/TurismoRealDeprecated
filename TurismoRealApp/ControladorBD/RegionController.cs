@@ -42,12 +42,16 @@ namespace ControladorBD
                     region.Nombre = lector.GetString(1);
                     regiones.Add(region);
                 }
+
+                cmd.Parameters.Clear();
+                conn.Close();
+                conn.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Me caí we en cargar la lista de regiones {ex}");
             }
-            conn.Close();
+            
             return regiones;
         }
         
