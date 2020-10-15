@@ -40,9 +40,10 @@ namespace ControladorBD
         {
             conn = ConexionBD.AbrirConexion();
             int creado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_CREAR_CLIENTE", conn);
+                cmd = new OracleCommand("SP_CREAR_CLIENTE", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -171,16 +172,16 @@ namespace ControladorBD
 
                 creado = int.Parse(affected_out.Value.ToString());
 
-                cmd.Parameters.Clear();
-                conn.Close();
-                conn.Dispose();
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 creado = -1;
             }
-           
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return creado;
         }
 
@@ -189,9 +190,10 @@ namespace ControladorBD
         {
             conn = ConexionBD.AbrirConexion();
             int eliminado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_ELIMINAR_CLIENTE", conn);
+                cmd = new OracleCommand("SP_ELIMINAR_CLIENTE", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -214,9 +216,7 @@ namespace ControladorBD
 
                 eliminado = int.Parse(affected_out.Value.ToString());
 
-                cmd.Parameters.Clear();
-                conn.Close();
-                conn.Dispose();
+                
             }
             catch (Exception ex)
             {
@@ -226,7 +226,9 @@ namespace ControladorBD
             //-1 cuando se tenga un problema con conexionbd
             // 0 cuando ninguna fila ha sido afectada
             // 1 cuando una fila ha sido afectada
-            
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return eliminado;
         }
         //método modificar
@@ -236,9 +238,10 @@ namespace ControladorBD
 
             conn = ConexionBD.AbrirConexion();
             int modificado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_MODIFICAR_CLIENTE", conn);
+                cmd = new OracleCommand("SP_MODIFICAR_CLIENTE", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -368,9 +371,7 @@ namespace ControladorBD
                 modificado = int.Parse(affected_out.Value.ToString());
 
 
-                cmd.Parameters.Clear();
-                conn.Close();
-                conn.Dispose();
+                
             }
             catch (Exception ex)
             {
@@ -380,7 +381,9 @@ namespace ControladorBD
             //-1 cuando se tenga un problema con conexionbd
             // 0 cuando ninguna fila a sido afectada
             // 1 cuando una fila fue afectada
-            
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return modificado;
         }
 
@@ -389,11 +392,12 @@ namespace ControladorBD
         public static List<Cliente> ListarCliente()
         {
             List<Cliente> clientes = new List<Cliente>();
+            OracleCommand cmd = null;
             try
             {
                 conn = ConexionBD.AbrirConexion();
                 //buscar la función
-                OracleCommand cmd = new OracleCommand("FN_LISTAR_CLIENTE", conn);
+                cmd = new OracleCommand("FN_LISTAR_CLIENTE", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 OracleParameter lista_cliente = new OracleParameter();
                 lista_cliente.ParameterName = "CUR_LISTAR_CLIENTE";
@@ -436,17 +440,18 @@ namespace ControladorBD
                     clientes.Add(cliente);
                 }
 
-                cmd.Parameters.Clear();
+                
                 lector.Close();
-                conn.Close();
-                conn.Dispose();
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Houston, tenemos un problema en listar cliente : {ex}");
                 return null; // en caso de haber un error
             }
-
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return clientes;
         }
     }

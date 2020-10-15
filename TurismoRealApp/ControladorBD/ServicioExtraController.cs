@@ -18,6 +18,9 @@ namespace ControladorBD
         static ServicioExtra servicio_extra = null;
 
         //Llamada a buscar
+        /*Puede retornar
+         null =  no se encontró ninguna lista
+         1 o + objeto =  encontrado*/
         public static ServicioExtra BuscarServicioExtra(int id)
         {
             //TODO
@@ -30,9 +33,10 @@ namespace ControladorBD
         {
             conn = ConexionBD.AbrirConexion();
             int creado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_CREAR_SERVICIO_EXTRA", conn);
+                cmd = new OracleCommand("SP_CREAR_SERVICIO_EXTRA", conn);
                 //decimos que es un procedimiento/función
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -74,7 +78,9 @@ namespace ControladorBD
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 creado = -1;
             }
-            
+            //-1 error con la base de datos
+            //0 no se modifico ninguna fila
+            //1 se modifico una fila
             return creado;
         }
         //Llamada a modificar
@@ -82,9 +88,10 @@ namespace ControladorBD
         {
             conn = ConexionBD.AbrirConexion();
             int modificado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_MODIFICAR_SERVICIO_EXTRA", conn);
+                cmd = new OracleCommand("SP_MODIFICAR_SERVICIO_EXTRA", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -114,10 +121,6 @@ namespace ControladorBD
                 cmd.ExecuteNonQuery();
 
                 modificado = int.Parse(affected_out.Value.ToString());
-
-                cmd.Parameters.Clear();
-                conn.Close();
-                conn.Dispose();
             }
             catch (Exception ex)
             {
@@ -125,9 +128,11 @@ namespace ControladorBD
                 modificado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd
-            // 0 cuando no se encontró con el id solicitado, no fue posible modificar
-            // 1 cuando si encuentre, entonces es posible modificar
-           
+            // 0 no se modifico ninguna fila
+            // 1 se modificó una fila
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return modificado;
         }
 
@@ -136,9 +141,10 @@ namespace ControladorBD
         {
             conn = ConexionBD.AbrirConexion();
             int eliminado = 0;
+            OracleCommand cmd = null;
             try
             {
-                OracleCommand cmd = new OracleCommand("SP_ELIMINAR_SERVICIO_EXTRA", conn);
+                cmd = new OracleCommand("SP_ELIMINAR_SERVICIO_EXTRA", conn);
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
@@ -161,9 +167,7 @@ namespace ControladorBD
 
                 eliminado = int.Parse(affected_out.Value.ToString());
 
-                cmd.Parameters.Clear();
-                conn.Close();
-                conn.Dispose();
+                
             }
             catch (Exception ex)
             {
@@ -171,9 +175,11 @@ namespace ControladorBD
                 eliminado = -1;
             }
             //-1 cuando se tenga un problema con conexionbd
-            // 0 cuando no se encontró con el id solicitado, no fue posible eliminar
-            // 1 cuando si encuentre, entonces es posible eliminar
-            
+            // 0 ninguna fila fue modificada
+            // 1 fila modificada
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             return eliminado; 
         }
 
