@@ -26,6 +26,12 @@ namespace TurismoRealApp
         {
             InitializeComponent();
         }
+        //constantes
+        const int ERROR_BASE_DATOS = -1;
+        const int FILA_MODIFICADA = 1;
+        const int NO_MODIFICADO = 0;
+
+
         //métodos de ventana
         private void LimpiarVentana()
         {
@@ -33,31 +39,27 @@ namespace TurismoRealApp
             tbx_id.Text = string.Empty;
         }
         //buscar un servicio extra
+        
         private void btn_buscar_Click(object sender, RoutedEventArgs e)
         {
-            if (!tbx_id.Text.Equals(string.Empty))
+            List<ServicioExtra> servicios_extra = new List<ServicioExtra>();
+            if (!tbx_buscar_pro.Equals(string.Empty))
             {
-                //falta controlar excepcion si es que el digito no es un número
-                int id = int.Parse(tbx_id.Text);
-                ServicioExtra servicio_extra = null;
-                servicio_extra = ServicioExtraController.BuscarServicioExtra(id);
-               
-
-                //pintando los tbx
-                if (servicio_extra.Id_servicio_extra != 0)
+                if ((bool)id.IsChecked)
                 {
-                    tbx_id.Text = servicio_extra.Id_servicio_extra.ToString();
-                    tbx_descripcion.Text = servicio_extra.Descripcion.ToString();
+                    servicios_extra = ServicioExtraController.BuscarServicioExtra(int.Parse(tbx_buscar_pro.Text), null);
                 }
                 else
                 {
-                    MessageBox.Show($"No se ha encontrado registro con id {id}", "No encontrado", MessageBoxButton.OK);
+                    servicios_extra = ServicioExtraController.BuscarServicioExtra(null, tbx_buscar_pro.Text);
                 }
-                
+
+                gv_lista_se.ItemsSource = null;
+                gv_lista_se.ItemsSource = servicios_extra;
             }
             else
             {
-                MessageBox.Show("Debe ingresar un ID a buscar", "Campo vacío", MessageBoxButton.OK);
+                MessageBox.Show("El campo debe tener datos par buscar", "Campo vacío", MessageBoxButton.OK);
             }
         }
         //Crear un servicio extra
@@ -71,11 +73,11 @@ namespace TurismoRealApp
                 int estado = 0;
 
                 estado = ServicioExtraController.CrearServicioExtra(id, descripcion);
-                if(estado == -1)
+                if(estado == ERROR_BASE_DATOS)
                 {
                     MessageBox.Show("Error al crear registro, problemas con BD", "Error BD", MessageBoxButton.OK);
                 }
-                else if (estado > 0)
+                else if (estado == NO_MODIFICADO)
                 {
                     MessageBox.Show("Registro ya existente", "Id duplicada", MessageBoxButton.OK);
                 }
@@ -85,6 +87,7 @@ namespace TurismoRealApp
                 }
                 
                 LimpiarVentana();
+                ActualizarGrilla();
             }
             else
             {
@@ -105,11 +108,11 @@ namespace TurismoRealApp
                 try
                 {
                     estado = ServicioExtraController.ModificarServicioExtra(id, descripcion);
-                    if (estado == -1)
+                    if (estado == ERROR_BASE_DATOS)
                     {
                         MessageBox.Show("Error al modificar registro, problemas con BD", "Error BD", MessageBoxButton.OK);
                     }
-                    else if (estado == 0)
+                    else if (estado == NO_MODIFICADO)
                     {
                         MessageBox.Show("Registro no existe, no es posible modificar", "No encontrado", MessageBoxButton.OK);
                     }
@@ -123,6 +126,7 @@ namespace TurismoRealApp
                     MessageBox.Show($"Error al modificar {ex}", "Error", MessageBoxButton.OK);
                 }
                 LimpiarVentana();
+                ActualizarGrilla();
             }
             else
             {
@@ -139,11 +143,11 @@ namespace TurismoRealApp
                 try
                 {
                     estado = ServicioExtraController.EliminarServicioExtra(id);
-                    if (estado == -1)
+                    if (estado == ERROR_BASE_DATOS)
                     {
                         MessageBox.Show("Error al eliminar registro, problemas con BD", "Error BD", MessageBoxButton.OK);
                     }
-                    else if (estado == 0)
+                    else if (estado == NO_MODIFICADO)
                     {
                         MessageBox.Show("Registro no existe, no es posible modificar", "No encontrado", MessageBoxButton.OK);
                     }
@@ -151,6 +155,9 @@ namespace TurismoRealApp
                     {
                         MessageBox.Show("Registro modificado con éxito", "Registro modificado", MessageBoxButton.OK);
                     }
+
+                    LimpiarVentana();
+                    ActualizarGrilla();
                 }
                 catch (Exception ex)
                 {
@@ -162,5 +169,20 @@ namespace TurismoRealApp
                 MessageBox.Show("Para eliminar el campo ID debe contener datos", "Error al eliminar", MessageBoxButton.OK);
             }
         }
+
+        private void ActualizarGrilla()
+        {
+            gv_lista_se.ItemsSource = null;
+            List<ServicioExtra> clientes = ServicioExtraController.ListarServicioExtra();
+
+            gv_lista_se.ItemsSource = clientes;
+        }
+
+        private void gv_lista_se_Loaded(object sender, RoutedEventArgs e)
+        {
+            ActualizarGrilla();
+        }
+
+       
     }
 }

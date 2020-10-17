@@ -15,24 +15,19 @@ namespace ControladorBD
     public static class ClienteController
     {
         static OracleConnection conn = null;
-        static Cliente cliente = null;
-
-
         //método buscar
-        //FALTA AGREGAR BUSCAR POR NOMBRE O RUT
-        public static Cliente BuscarCliente(int id)
+        
+        public static List<Cliente> BuscarCliente(int? id, string rut, string nombre, string apellido)
         {
-            if(ListarCliente() != null)
+            List<Cliente> clientes = ListarCliente();
+            if (clientes != null)
             {
-                List<Cliente> clientes = (from cliente in ListarCliente() where cliente.Id_cliente == id select cliente).ToList();
-                return clientes.Count > 0 ? clientes[0] : null;
+                return clientes.Where(cliente => (String.IsNullOrEmpty(rut) ? true : cliente.Rut.Contains(rut)) &&
+                                                  (String.IsNullOrEmpty(nombre) || cliente.Nombre.Contains(nombre)) &&
+                                                  (id == null ? true : cliente.Id_cliente == id) &&
+                                                  (String.IsNullOrEmpty(apellido) || cliente.Primer_ape.Contains(apellido))).ToList();
             }
-            else
-            {
-                Console.WriteLine("Lista de clientes vacía");
-                return null;                
-            }
-            
+            return clientes;
         }
 
         //método crear
@@ -114,7 +109,7 @@ namespace ControladorBD
 
                 //fecha_nac
                 OracleParameter fecha_nac_in = new OracleParameter();
-                fecha_nac_in.ParameterName = "P_TELEFONO";
+                fecha_nac_in.ParameterName = "P_FECHA_NAC";
                 fecha_nac_in.OracleDbType = OracleDbType.Date;
                 fecha_nac_in.Direction = ParameterDirection.Input;
                 fecha_nac_in.Value = fecha_nac;
@@ -172,7 +167,7 @@ namespace ControladorBD
 
                 creado = int.Parse(affected_out.Value.ToString());
 
-                
+
             }
             catch (Exception ex)
             {
@@ -216,7 +211,7 @@ namespace ControladorBD
 
                 eliminado = int.Parse(affected_out.Value.ToString());
 
-                
+
             }
             catch (Exception ex)
             {
@@ -371,7 +366,7 @@ namespace ControladorBD
                 modificado = int.Parse(affected_out.Value.ToString());
 
 
-                
+
             }
             catch (Exception ex)
             {
@@ -417,37 +412,45 @@ namespace ControladorBD
                 List<Region> regiones = RegionController.ListarRegion();
                 List<Nacionalidad> nacionalidades = NacionalidadController.ListarNacionalidad();
 
-                while (lector.Read()) // se rescatan todos los datos
+                Console.WriteLine(lector.RowSize);
+
+                while (lector.HasRows) // se rescatan todos los datos
                 {
-                    List<Comuna> comuna_cliente = (from comuna in comunas where comuna.Id_comuna == lector.GetInt32(10) select comuna).ToList();
-                    List<Region> region_cliente = (from region in regiones where region.Id_region == lector.GetInt32(11) select region).ToList();
-                    List<Nacionalidad> nacionalidad_cliente = (from nacionalidad in nacionalidades where nacionalidad.Id_nacionalidad == lector.GetInt32(12) select nacionalidad).ToList();
+                    while (lector.Read())
+                    {
+                        Comuna comuna = comunas.Where(com => com.Id_comuna == lector.GetInt32(10)).ToList().FirstOrDefault();
+                        Region region = regiones.Where(r => r.Id_region == lector.GetInt32(11)).ToList().FirstOrDefault();
+                        Nacionalidad nacionalidad = nacionalidades.Where(nacion => nacion.Id_nacionalidad == lector.GetInt32(12)).ToList().FirstOrDefault();
 
-                    Cliente cliente = new Cliente();
-                    cliente.Id_cliente = lector.GetInt32(0);
-                    cliente.Rut = lector.GetString(1);
-                    cliente.Nombre = lector.GetString(2);
-                    cliente.Primer_ape = lector.GetString(3);
-                    cliente.Segundo_ape = lector.GetString(4);
-                    cliente.Direccion = lector.GetString(5);
-                    cliente.Telefono = lector.GetString(6);
-                    cliente.Fecha_nac = lector.GetDateTime(7);
-                    cliente.Correo = lector.GetString(8);
-                    cliente.Frecuente = lector.GetInt32(9);
-                    cliente.Comuna = comuna_cliente[0];
-                    cliente.Region = region_cliente[0];
-                    cliente.Nacionalidad = nacionalidad_cliente[0];
-                    clientes.Add(cliente);
+                        Cliente cliente = new Cliente();
+                        cliente.Id_cliente = lector.GetInt32(0);
+                        cliente.Rut = lector.GetString(1);
+                        cliente.Nombre = lector.GetString(2);
+                        cliente.Primer_ape = lector.GetString(3);
+                        cliente.Segundo_ape = lector.GetString(4);
+                        cliente.Direccion = lector.GetString(5);
+                        cliente.Telefono = lector.GetString(6);
+                        cliente.Fecha_nac = lector.GetDateTime(7);
+                        cliente.Correo = lector.GetString(8);
+                        cliente.Frecuente = lector.GetInt32(9);
+                        cliente.Comuna = comuna;
+                        cliente.Region = region;
+                        cliente.Nacionalidad = nacionalidad;
+
+                        clientes.Add(cliente);
+
+                    }
+                    lector.NextResult();
                 }
-
-                
                 lector.Close();
-                
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Houston, tenemos un problema en listar cliente : {ex}");
-                return null; // en caso de haber un error
+                clientes = null;
+                cmd.Parameters.Clear();
+                conn.Close();
+                conn.Dispose();
             }
             cmd.Parameters.Clear();
             conn.Close();

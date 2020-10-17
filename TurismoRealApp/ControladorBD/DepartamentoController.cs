@@ -48,12 +48,12 @@ namespace ControladorBD
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
                 //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_inout = new OracleParameter();
-                id_inout.ParameterName = "P_ID";
-                id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.Input;
-                id_inout.Value = id_departamento;
-                cmd.Parameters.Add(id_inout);
+                OracleParameter id_in = new OracleParameter();
+                id_in.ParameterName = "P_ID";
+                id_in.OracleDbType = OracleDbType.Decimal;
+                id_in.Direction = ParameterDirection.Input;
+                id_in.Value = id_departamento;
+                cmd.Parameters.Add(id_in);
 
                 //direccion
                 OracleParameter direccion_in = new OracleParameter();

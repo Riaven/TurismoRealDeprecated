@@ -18,9 +18,9 @@ namespace Modelo
         private DateTime _fecha_nac;
         private string _correo;
         private int _frecuente;
-        Comuna _comuna;
-        Region _region;
-        Nacionalidad _nacionalidad;
+        private Comuna _comuna;
+        private Region _region;
+        private Nacionalidad _nacionalidad;
 
         public Cliente()
         {

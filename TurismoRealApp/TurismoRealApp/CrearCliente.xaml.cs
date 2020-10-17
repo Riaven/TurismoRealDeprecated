@@ -30,6 +30,7 @@ namespace TurismoRealApp
             CargarCbxRegion();
             CargarCbxComuna();
             CargarCbxFrecuente();
+            this.gv_lista_cliente.CanUserAddRows = false;
         }
 
         
@@ -77,7 +78,7 @@ namespace TurismoRealApp
 
         private void btn_crear_Click(object sender, RoutedEventArgs e)
         {
-            int estado;
+            int estado =0;
             //tomamos los datos de la ventana
             if (!tbx_id.Text.Equals(string.Empty) && !tbx_rut.Text.Equals(string.Empty) && !tbx_nombre.Text.Equals(string.Empty) && !tbx_primer_ape.Text.Equals(string.Empty) && !tbx_segundo_ape.Text.Equals(string.Empty) && !tbx_direccion.Text.Equals(string.Empty) && !tbx_rut.Text.Equals(string.Empty) && !tbx_telefono.Text.Equals(string.Empty) && !tbx_correo.Text.Equals(string.Empty))
             {
@@ -95,7 +96,7 @@ namespace TurismoRealApp
                 int region_id = cbx_region.SelectedIndex;
                 int nacionalidad_id = cbx_nacionalidad.SelectedIndex;
 
-                estado = ClienteController.CrearCliente(id_cliente,rut, nombre, primer_ape, segundo_ape, direccion, telefono, fecha_nac,correo, frecuente, comuna_id, region_id, nacionalidad_id);
+                //estado = ClienteController.CrearCliente(id_cliente,rut, nombre, primer_ape, segundo_ape, direccion, telefono, fecha_nac,correo, frecuente, comuna_id, region_id, nacionalidad_id);
 
                 if (estado == -1)
                 {
@@ -169,21 +170,12 @@ namespace TurismoRealApp
         {
             if (!tbx_id.Text.Equals(string.Empty))
             {
-                Cliente cliente = ClienteController.BuscarCliente(int.Parse(tbx_id.Text));
-
-                tbx_id.Text = cliente.Id_cliente.ToString();
-                tbx_rut.Text = cliente.Rut;
-                tbx_nombre.Text = cliente.Nombre;
-                tbx_primer_ape.Text = cliente.Primer_ape;
-                tbx_segundo_ape.Text = cliente.Segundo_ape;
-                tbx_direccion.Text = cliente.Direccion;
-                tbx_telefono.Text = cliente.Telefono;
-                dp_fecha_nac.SelectedDate = cliente.Fecha_nac;
-                tbx_correo.Text = cliente.Correo;
-                cbx_frecuente.SelectedIndex = cliente.Frecuente;
-                cbx_comuna.SelectedIndex = cliente.Comuna.Id_comuna;
-                cbx_region.SelectedIndex = cliente.Region.Id_region;
-                cbx_nacionalidad.SelectedIndex = cliente.Nacionalidad.Id_nacionalidad;
+                string nombre = "a";
+                string rut = "";
+                foreach(Cliente cli in ClienteController.BuscarCliente(null, rut, nombre, null))
+                {
+                    Console.WriteLine($"Cliente de id {cli.Id_cliente} y con nombre {cli.Nombre} con el rut {cli.Rut}");
+                }
 
             }
         }
@@ -208,7 +200,7 @@ namespace TurismoRealApp
 
             try
             {
-                estado = ClienteController.ModificarCliente(id_cliente, rut, nombre, primer_ape, segundo_ape, direccion, telefono, fecha_nac, correo, frecuente, comuna_id, region_id, nacionalidad_id);
+               // estado = ClienteController.ModificarCliente(id_cliente, rut, nombre, primer_ape, segundo_ape, direccion, telefono, fecha_nac, correo, frecuente, comuna_id, region_id, nacionalidad_id);
                 if (estado == -1)
                 {
                     MessageBox.Show("Error al modificar registro, problemas con BD", "Error BD", MessageBoxButton.OK);

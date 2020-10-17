@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Modelo;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
-using System.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Data;
-using Modelo;
+using System.Linq;
 
 namespace ControladorBD
 {
@@ -15,20 +12,23 @@ namespace ControladorBD
     public static class ServicioExtraController
     {
         static OracleConnection conn = null;
-        static ServicioExtra servicio_extra = null;
 
         //Llamada a buscar
         /*Puede retornar
          null =  no se encontró ninguna lista
          1 o + objeto =  encontrado*/
-        public static ServicioExtra BuscarServicioExtra(int id)
+        public static List<ServicioExtra> BuscarServicioExtra(int? id, string descripcion)
         {
-            //TODO
-            return servicio_extra;
+            List<ServicioExtra> servicios_extras = ListarServicioExtra();
+            if (servicios_extras != null)
+            {
+                return servicios_extras.Where(servicio_extra => (String.IsNullOrEmpty(descripcion) ? true : servicio_extra.Descripcion.Contains(descripcion)) && (id == null ? true : servicio_extra.Id_servicio_extra == id)).ToList();
+            }
+            return servicios_extras;
         }
 
         //Llamada a crear
-        
+
         public static int CrearServicioExtra(int id, string descripcion)
         {
             conn = ConexionBD.AbrirConexion();
@@ -41,12 +41,12 @@ namespace ControladorBD
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
                 //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_inout = new OracleParameter();
-                id_inout.ParameterName = "P_ID";
-                id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.Input;
-                id_inout.Value = id;
-                cmd.Parameters.Add(id_inout);
+                OracleParameter id_in = new OracleParameter();
+                id_in.ParameterName = "P_ID";
+                id_in.OracleDbType = OracleDbType.Decimal;
+                id_in.Direction = ParameterDirection.Input;
+                id_in.Value = id;
+                cmd.Parameters.Add(id_in);
 
                 //p_id parámetro de entrada y salida, contiene el id 
                 OracleParameter descripcion_in = new OracleParameter();
@@ -96,12 +96,12 @@ namespace ControladorBD
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
                 //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_inout = new OracleParameter();
-                id_inout.ParameterName = "P_ID";
-                id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.Input;
-                id_inout.Value = id;
-                cmd.Parameters.Add(id_inout);
+                OracleParameter id_in = new OracleParameter();
+                id_in.ParameterName = "P_ID";
+                id_in.OracleDbType = OracleDbType.Decimal;
+                id_in.Direction = ParameterDirection.Input;
+                id_in.Value = id;
+                cmd.Parameters.Add(id_in);
 
                 //p_id parámetro de entrada y salida, contiene el id 
                 OracleParameter descripcion_in = new OracleParameter();
@@ -149,12 +149,12 @@ namespace ControladorBD
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
                 //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_inout = new OracleParameter();
-                id_inout.ParameterName = "P_ID";
-                id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.Input;
-                id_inout.Value = id;
-                cmd.Parameters.Add(id_inout);
+                OracleParameter id_in = new OracleParameter();
+                id_in.ParameterName = "P_ID";
+                id_in.OracleDbType = OracleDbType.Decimal;
+                id_in.Direction = ParameterDirection.Input;
+                id_in.Value = id;
+                cmd.Parameters.Add(id_in);
 
                 //retorna filas afectadas 
                 OracleParameter affected_out = new OracleParameter();
@@ -167,7 +167,7 @@ namespace ControladorBD
 
                 eliminado = int.Parse(affected_out.Value.ToString());
 
-                
+
             }
             catch (Exception ex)
             {
@@ -180,8 +180,48 @@ namespace ControladorBD
             cmd.Parameters.Clear();
             conn.Close();
             conn.Dispose();
-            return eliminado; 
+            return eliminado;
         }
 
+
+        //listar clientes
+        public static List<ServicioExtra> ListarServicioExtra()
+        {
+            List<ServicioExtra> servicios_extras = new List<ServicioExtra>();
+            OracleCommand cmd = null;
+            try
+            {
+                conn = ConexionBD.AbrirConexion();
+                //buscar la función
+                cmd = new OracleCommand("FN_LISTAR_SERVICIOS_EXTRA", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                OracleParameter lista_servicio_extra = new OracleParameter();
+                lista_servicio_extra.ParameterName = "CUR_LISTAR_SERVICIO_EXTRA";
+                lista_servicio_extra.OracleDbType = OracleDbType.RefCursor;
+                lista_servicio_extra.Direction = ParameterDirection.ReturnValue;
+
+                cmd.Parameters.Add(lista_servicio_extra);
+
+                cmd.ExecuteNonQuery();
+                //tomar datos
+                OracleDataReader lector = ((OracleRefCursor)lista_servicio_extra.Value).GetDataReader();
+                while (lector.Read())
+                {
+                    ServicioExtra se = new ServicioExtra();
+                    se.Id_servicio_extra = lector.GetInt32(0);
+                    se.Descripcion = lector.GetString(1);
+
+                    servicios_extras.Add(se);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Tenemos un problema con listar clientes {ex}");
+                return null;
+            }
+
+            return servicios_extras;
+        }
     }
 }
