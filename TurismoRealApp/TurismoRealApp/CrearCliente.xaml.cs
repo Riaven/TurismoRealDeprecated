@@ -96,6 +96,8 @@ namespace TurismoRealApp
                 int region_id = cbx_region.SelectedIndex;
                 int nacionalidad_id = cbx_nacionalidad.SelectedIndex;
 
+                //faltan buscar los objetos por el id
+
                 //estado = ClienteController.CrearCliente(id_cliente,rut, nombre, primer_ape, segundo_ape, direccion, telefono, fecha_nac,correo, frecuente, comuna_id, region_id, nacionalidad_id);
 
                 if (estado == -1)

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    public class EstadoInmueble
+    public class EstadoMueble
     {
         private int _id_estado_inmueble;
         private string _nombre_estado;
 
-        public EstadoInmueble()
+        public EstadoMueble()
         {
 
         }
 
-        public EstadoInmueble(int id_estado_inmueble, string nombre_estado)
+        public EstadoMueble(int id_estado_inmueble, string nombre_estado)
         {
             Id_estado_inmueble = id_estado_inmueble;
             Nombre_estado = nombre_estado;

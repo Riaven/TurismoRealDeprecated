@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 
 namespace Modelo
 {
-    public class ZonaMueble
+    public class TipoGasto
     {
-        private int _id_zona;
+        private int _id_gasto;
         private string _descripcion;
 
-        public ZonaMueble()
+        public TipoGasto()
         {
-
         }
 
-        public ZonaMueble(int id_zona, string descripcion)
+        public TipoGasto(int id_gasto, string descripcion)
         {
-            this.Id_zona = id_zona;
-            this.Descripcion = descripcion;
+            Id_gasto = id_gasto;
+            Descripcion = descripcion;
         }
 
-        public int Id_zona { get => _id_zona; set => _id_zona = value; }
+        public int Id_gasto { get => _id_gasto; set => _id_gasto = value; }
         public string Descripcion { get => _descripcion; set => _descripcion = value; }
     }
 }

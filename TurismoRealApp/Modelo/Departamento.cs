@@ -9,7 +9,7 @@ namespace Modelo
     public class Departamento
     {
         private int _id_departamento;
-        private string _direccion;
+        private string _ubicacion;
         private int _numero;
         private int _precio;
         private string _m_cuadrados;
@@ -17,20 +17,17 @@ namespace Modelo
         private string _descripcion;
         private int _cantidad_habitacion;
         private EstadoDepartamento _estado_departamento;
-        private Region _region;
         private Comuna _comuna;
-        private Inventario _inventario;
         private Empleado _funcionario;
-        private ServicioExtra _servicio_extra;
 
         public Departamento()
         {
         }
 
-        public Departamento(int id_departamento, string direccion, int numero, int precio, string cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, Inventario inventario, Empleado funcionario, ServicioExtra servicio_extra)
+        public Departamento(int id_departamento, string ubicacion, int numero, int precio, string cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Comuna comuna, Empleado funcionario)
         {
             Id_departamento = id_departamento;
-            Direccion = direccion;
+            Ubicacion = ubicacion;
             Numero = numero;
             Precio = precio;
             Cuadrados = cuadrados;
@@ -38,15 +35,12 @@ namespace Modelo
             Descripcion = descripcion;
             Cantidad_habitacion = cantidad_habitacion;
             Estado_departamento = estado_departamento;
-            Region = region;
             Comuna = comuna;
-            Inventario = inventario;
             Funcionario = funcionario;
-            Servicio_extra = servicio_extra;
         }
 
         public int Id_departamento { get => _id_departamento; set => _id_departamento = value; }
-        public string Direccion { get => _direccion; set => _direccion = value; }
+        public string Ubicacion { get => _ubicacion; set => _ubicacion = value; }
         public int Numero { get => _numero; set => _numero = value; }
         public int Precio { get => _precio; set => _precio = value; }
         public string Cuadrados { get => _m_cuadrados; set => _m_cuadrados = value; }
@@ -54,10 +48,7 @@ namespace Modelo
         public string Descripcion { get => _descripcion; set => _descripcion = value; }
         public int Cantidad_habitacion { get => _cantidad_habitacion; set => _cantidad_habitacion = value; }
         public EstadoDepartamento Estado_departamento { get => _estado_departamento; set => _estado_departamento = value; }
-        public Region Region { get => _region; set => _region = value; }
         public Comuna Comuna { get => _comuna; set => _comuna = value; }
-        public Inventario Inventario { get => _inventario; set => _inventario = value; }
         public Empleado Funcionario { get => _funcionario; set => _funcionario = value; }
-        public ServicioExtra Servicio_extra { get => _servicio_extra; set => _servicio_extra = value; }
     }
 }

@@ -9,20 +9,20 @@ namespace Modelo
     public class ReservaDepartamento
     {
         private int _id_reserva;
-        private DateTime _fecha_inicio;
+        private DateTime _fecha_inicio; 
         private DateTime _fecha_termino;
         private int _total_reserva;
-        private int _pago_reserva;
+        private int _pago_reserva;//quitar
         private Cliente _cliente;
         private EstadoReserva _estado_reserva;
-        private int _pago; //esto deberia ser otra tabla adicional en la base de datos
+        private Pago _pago; //esto deberia ser otra tabla adicional en la base de datos
 
         public ReservaDepartamento()
         {
 
         }
 
-        public ReservaDepartamento(int id_reserva, DateTime fecha_inicio, DateTime fecha_termino, int total_reserva, int pago_reserva, Cliente cliente, EstadoReserva estado_reserva, int pago)
+        public ReservaDepartamento(int id_reserva, DateTime fecha_inicio, DateTime fecha_termino, int total_reserva, int pago_reserva, Cliente cliente, EstadoReserva estado_reserva, Pago pago)
         {
             Id_reserva = id_reserva;
             Fecha_inicio = fecha_inicio;
@@ -41,6 +41,6 @@ namespace Modelo
         public int Pago_reserva { get => _pago_reserva; set => _pago_reserva = value; }
         public Cliente Cliente { get => _cliente; set => _cliente = value; }
         public EstadoReserva Estado_reserva { get => _estado_reserva; set => _estado_reserva = value; }
-        public int Pago { get => _pago; set => _pago = value; }
+        public Pago Pago { get => _pago; set => _pago = value; }
     }
 }
