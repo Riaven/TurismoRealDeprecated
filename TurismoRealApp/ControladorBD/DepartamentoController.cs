@@ -35,7 +35,7 @@ namespace ControladorBD
         }
 
         //método crear
-        public static int CrearDepartamento( int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, Inventario inventario, Empleado funcionario, ServicioExtra servicio_extra)
+        public static int CrearDepartamento( string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento,  Comuna comuna, Empleado funcionario)
         {
 
             conn = ConexionBD.AbrirConexion();
@@ -47,17 +47,10 @@ namespace ControladorBD
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
-                //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_in = new OracleParameter();
-                id_in.ParameterName = "P_ID";
-                id_in.OracleDbType = OracleDbType.Decimal;
-                id_in.Direction = ParameterDirection.Input;
-                id_in.Value = id_departamento;
-                cmd.Parameters.Add(id_in);
-
+                
                 //direccion
                 OracleParameter direccion_in = new OracleParameter();
-                direccion_in.ParameterName = "P_DIRECCION";
+                direccion_in.ParameterName = "P_UBICACION";
                 direccion_in.OracleDbType = OracleDbType.Varchar2;
                 direccion_in.Size = 60;
                 direccion_in.Direction = ParameterDirection.Input;
@@ -85,8 +78,7 @@ namespace ControladorBD
                 //m cuadrados
                 OracleParameter m_cuadrados_in = new OracleParameter();
                 m_cuadrados_in.ParameterName = "P_M_CUADRADOS";
-                m_cuadrados_in.OracleDbType = OracleDbType.Varchar2;
-                m_cuadrados_in.Size = 20;
+                m_cuadrados_in.OracleDbType = OracleDbType.Int32;
                 m_cuadrados_in.Direction = ParameterDirection.Input;
                 m_cuadrados_in.Value = m_cuadrados;
                 cmd.Parameters.Add(m_cuadrados_in);
@@ -103,7 +95,7 @@ namespace ControladorBD
                 OracleParameter descripcion_in = new OracleParameter();
                 descripcion_in.ParameterName = "P_DESCRIPCION";
                 descripcion_in.OracleDbType = OracleDbType.Varchar2;
-                descripcion_in.Size = 50;
+                descripcion_in.Size = 300;
                 descripcion_in.Direction = ParameterDirection.Input;
                 descripcion_in.Value = descripcion;
                 cmd.Parameters.Add(descripcion_in);
@@ -125,31 +117,6 @@ namespace ControladorBD
                 estado_in.Value = estado_departamento.Id_estado_departamento;
                 cmd.Parameters.Add(estado_in);
 
-                //region
-                OracleParameter region_in = new OracleParameter();
-                region_in.ParameterName = "P_REGION";
-                region_in.OracleDbType = OracleDbType.Int32;
-                region_in.Direction = ParameterDirection.Input;
-                region_in.Value = region.Id_region;
-                cmd.Parameters.Add(region_in);
-
-
-                //comuna
-                OracleParameter comuna_in = new OracleParameter();
-                comuna_in.ParameterName = "P_COMUNA";
-                comuna_in.OracleDbType = OracleDbType.Int32;
-                comuna_in.Direction = ParameterDirection.Input;
-                comuna_in.Value = comuna.Id_comuna;
-                cmd.Parameters.Add(comuna_in);
-
-                //inventario
-                OracleParameter inventario_in = new OracleParameter();
-                inventario_in.ParameterName = "P_INVENTARIO";
-                inventario_in.OracleDbType = OracleDbType.Int32;
-                inventario_in.Direction = ParameterDirection.Input;
-                inventario_in.Value = inventario.Id_inventario;
-                cmd.Parameters.Add(inventario_in);
-
                 //funcionario
                 OracleParameter funcionario_in = new OracleParameter();
                 funcionario_in.ParameterName = "P_FUNCIONARIO";
@@ -158,13 +125,13 @@ namespace ControladorBD
                 funcionario_in.Value = funcionario.Id_empleado;
                 cmd.Parameters.Add(funcionario_in);
 
-                //servicio extra
-                OracleParameter servicio_extra_in = new OracleParameter();
-                servicio_extra_in.ParameterName = "P_SERVICIO_EXTRA";
-                servicio_extra_in.OracleDbType = OracleDbType.Int32;
-                servicio_extra_in.Direction = ParameterDirection.Input;
-                servicio_extra_in.Value = servicio_extra.Id_servicio_extra;
-                cmd.Parameters.Add(servicio_extra_in);
+                //comuna
+                OracleParameter comuna_in = new OracleParameter();
+                comuna_in.ParameterName = "P_COMUNA";
+                comuna_in.OracleDbType = OracleDbType.Int32;
+                comuna_in.Direction = ParameterDirection.Input;
+                comuna_in.Value = comuna.Id_comuna;
+                cmd.Parameters.Add(comuna_in);
 
                 //retorna filas afectadas 
                 OracleParameter affected_out = new OracleParameter();
@@ -235,7 +202,7 @@ namespace ControladorBD
         }
         //método modificar
 
-        public static int ModificarDepartamento(int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Region region, Comuna comuna, Inventario inventario, Empleado funcionario, ServicioExtra servicio_extra)
+        public static int ModificarDepartamento(int id_departamento, string direccion, int numero, int precio, string m_cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Comuna comuna, Empleado funcionario)
         {
 
             conn = ConexionBD.AbrirConexion();
@@ -258,7 +225,7 @@ namespace ControladorBD
 
                 //direccion
                 OracleParameter direccion_in = new OracleParameter();
-                direccion_in.ParameterName = "P_DIRECCION";
+                direccion_in.ParameterName = "P_UBICACION";
                 direccion_in.OracleDbType = OracleDbType.Varchar2;
                 direccion_in.Size = 60;
                 direccion_in.Direction = ParameterDirection.Input;
@@ -286,8 +253,7 @@ namespace ControladorBD
                 //m cuadrados
                 OracleParameter m_cuadrados_in = new OracleParameter();
                 m_cuadrados_in.ParameterName = "P_M_CUADRADOS";
-                m_cuadrados_in.OracleDbType = OracleDbType.Varchar2;
-                m_cuadrados_in.Size = 20;
+                m_cuadrados_in.OracleDbType = OracleDbType.Int32;
                 m_cuadrados_in.Direction = ParameterDirection.Input;
                 m_cuadrados_in.Value = m_cuadrados;
                 cmd.Parameters.Add(m_cuadrados_in);
@@ -304,7 +270,7 @@ namespace ControladorBD
                 OracleParameter descripcion_in = new OracleParameter();
                 descripcion_in.ParameterName = "P_DESCRIPCION";
                 descripcion_in.OracleDbType = OracleDbType.Varchar2;
-                descripcion_in.Size = 50;
+                descripcion_in.Size = 300;
                 descripcion_in.Direction = ParameterDirection.Input;
                 descripcion_in.Value = descripcion;
                 cmd.Parameters.Add(descripcion_in);
@@ -323,33 +289,8 @@ namespace ControladorBD
                 estado_in.ParameterName = "P_ESTADO";
                 estado_in.OracleDbType = OracleDbType.Int32;
                 estado_in.Direction = ParameterDirection.Input;
-                estado_in.Value = 1;
+                estado_in.Value = estado_departamento.Id_estado_departamento;
                 cmd.Parameters.Add(estado_in);
-
-                //region
-                OracleParameter region_in = new OracleParameter();
-                region_in.ParameterName = "P_REGION";
-                region_in.OracleDbType = OracleDbType.Int32;
-                region_in.Direction = ParameterDirection.Input;
-                region_in.Value = region.Id_region;
-                cmd.Parameters.Add(region_in);
-
-
-                //comuna
-                OracleParameter comuna_in = new OracleParameter();
-                comuna_in.ParameterName = "P_COMUNA";
-                comuna_in.OracleDbType = OracleDbType.Int32;
-                comuna_in.Direction = ParameterDirection.Input;
-                comuna_in.Value = comuna.Id_comuna;
-                cmd.Parameters.Add(comuna_in);
-
-                //inventario
-                OracleParameter inventario_in = new OracleParameter();
-                inventario_in.ParameterName = "P_INVENTARIO";
-                inventario_in.OracleDbType = OracleDbType.Int32;
-                inventario_in.Direction = ParameterDirection.Input;
-                inventario_in.Value = 1;
-                cmd.Parameters.Add(inventario_in);
 
                 //funcionario
                 OracleParameter funcionario_in = new OracleParameter();
@@ -359,13 +300,13 @@ namespace ControladorBD
                 funcionario_in.Value = funcionario.Id_empleado;
                 cmd.Parameters.Add(funcionario_in);
 
-                //servicio extra
-                OracleParameter servicio_extra_in = new OracleParameter();
-                servicio_extra_in.ParameterName = "P_SERVICIO_EXTRA";
-                servicio_extra_in.OracleDbType = OracleDbType.Int32;
-                servicio_extra_in.Direction = ParameterDirection.Input;
-                servicio_extra_in.Value = servicio_extra.Id_servicio_extra;
-                cmd.Parameters.Add(servicio_extra_in);
+                //comuna
+                OracleParameter comuna_in = new OracleParameter();
+                comuna_in.ParameterName = "P_COMUNA";
+                comuna_in.OracleDbType = OracleDbType.Int32;
+                comuna_in.Direction = ParameterDirection.Input;
+                comuna_in.Value = comuna.Id_comuna;
+                cmd.Parameters.Add(comuna_in);
 
                 //retorna filas afectadas 
                 OracleParameter affected_out = new OracleParameter();
@@ -418,18 +359,14 @@ namespace ControladorBD
                 OracleDataReader lector = ((OracleRefCursor)lista_departamento.Value).GetDataReader();
                 //cargamos los datos externos
                 List<Comuna> comunas = ComunaController.ListarComuna();
-                List<Region> regiones = RegionController.ListarRegion();
+                
                 //estado_departamento
 
 
 
                 while (lector.Read())
                 {
-                    List<Comuna> comuna_cliente = (from comuna in comunas where comuna.Id_comuna == lector.GetInt32(10) select comuna).ToList();
-                    List<Region> region_cliente = (from region in regiones where region.Id_region == lector.GetInt32(11) select region).ToList();
-                    
-
-                    
+                    //TODO
                     //departamentos.Add(cliente);
                 }
 

@@ -25,13 +25,13 @@ namespace ControladorBD
                 return clientes.Where(cliente => (String.IsNullOrEmpty(rut) ? true : cliente.Rut.Contains(rut)) &&
                                                   (String.IsNullOrEmpty(nombre) || cliente.Nombre.Contains(nombre)) &&
                                                   (id == null ? true : cliente.Id_cliente == id) &&
-                                                  (String.IsNullOrEmpty(apellido) || cliente.Primer_ape.Contains(apellido))).ToList();
+                                                  (String.IsNullOrEmpty(apellido) || cliente.Apaterno.Contains(apellido))).ToList();
             }
             return clientes;
         }
 
         //método crear
-        public static int CrearCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, Comuna comuna, Region region, Nacionalidad nacionalidad)
+        public static int CrearCliente(string rut, string nombre, string primer_ape, string segundo_ape, string correo, string direccion, int telefono, DateTime fecha_naci, int frecuente, Comuna comuna, Nacionalidad nacionalidad)
         {
             conn = ConexionBD.AbrirConexion();
             int creado = 0;
@@ -42,15 +42,8 @@ namespace ControladorBD
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
-                //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_inout = new OracleParameter();
-                id_inout.ParameterName = "P_ID";
-                id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.Input;
-                id_inout.Value = id_cliente;
-                cmd.Parameters.Add(id_inout);
-
-                //rut
+              
+                //rut**************
                 OracleParameter rut_in = new OracleParameter();
                 rut_in.ParameterName = "P_RUT";
                 rut_in.OracleDbType = OracleDbType.Varchar2;
@@ -63,7 +56,7 @@ namespace ControladorBD
                 OracleParameter nombre_in = new OracleParameter();
                 nombre_in.ParameterName = "P_NOMBRE";
                 nombre_in.OracleDbType = OracleDbType.Varchar2;
-                nombre_in.Size = 20;
+                nombre_in.Size = 40;
                 nombre_in.Direction = ParameterDirection.Input;
                 nombre_in.Value = nombre;
                 cmd.Parameters.Add(nombre_in);
@@ -73,7 +66,7 @@ namespace ControladorBD
                 OracleParameter primer_ape_in = new OracleParameter();
                 primer_ape_in.ParameterName = "P_PRIMER_APE";
                 primer_ape_in.OracleDbType = OracleDbType.Varchar2;
-                primer_ape_in.Size = 40;
+                primer_ape_in.Size = 30;
                 primer_ape_in.Direction = ParameterDirection.Input;
                 primer_ape_in.Value = primer_ape;
                 cmd.Parameters.Add(primer_ape_in);
@@ -83,16 +76,25 @@ namespace ControladorBD
                 OracleParameter segundo_ape_in = new OracleParameter();
                 segundo_ape_in.ParameterName = "P_SEGUNDO_APE";
                 segundo_ape_in.OracleDbType = OracleDbType.Varchar2;
-                segundo_ape_in.Size = 40;
+                segundo_ape_in.Size = 30;
                 segundo_ape_in.Direction = ParameterDirection.Input;
                 segundo_ape_in.Value = segundo_ape;
                 cmd.Parameters.Add(segundo_ape_in);
+
+                //correo
+                OracleParameter correo_in = new OracleParameter();
+                correo_in.ParameterName = "P_CORREO";
+                correo_in.OracleDbType = OracleDbType.Varchar2;
+                correo_in.Size = 30;
+                correo_in.Direction = ParameterDirection.Input;
+                correo_in.Value = correo;
+                cmd.Parameters.Add(correo_in);
 
                 //direccion
                 OracleParameter direccion_in = new OracleParameter();
                 direccion_in.ParameterName = "P_DIRECCION";
                 direccion_in.OracleDbType = OracleDbType.Varchar2;
-                direccion_in.Size = 60;
+                direccion_in.Size = 50;
                 direccion_in.Direction = ParameterDirection.Input;
                 direccion_in.Value = direccion;
                 cmd.Parameters.Add(direccion_in);
@@ -100,8 +102,7 @@ namespace ControladorBD
                 //telefono
                 OracleParameter telefono_in = new OracleParameter();
                 telefono_in.ParameterName = "P_TELEFONO";
-                telefono_in.OracleDbType = OracleDbType.Varchar2;
-                telefono_in.Size = 15;
+                telefono_in.OracleDbType = OracleDbType.Int32;
                 telefono_in.Direction = ParameterDirection.Input;
                 telefono_in.Value = telefono;
                 cmd.Parameters.Add(telefono_in);
@@ -112,17 +113,10 @@ namespace ControladorBD
                 fecha_nac_in.ParameterName = "P_FECHA_NAC";
                 fecha_nac_in.OracleDbType = OracleDbType.Date;
                 fecha_nac_in.Direction = ParameterDirection.Input;
-                fecha_nac_in.Value = fecha_nac;
+                fecha_nac_in.Value = fecha_naci;
                 cmd.Parameters.Add(fecha_nac_in);
 
-                //correo
-                OracleParameter correo_in = new OracleParameter();
-                correo_in.ParameterName = "P_CORREO";
-                correo_in.OracleDbType = OracleDbType.Varchar2;
-                correo_in.Size = 30;
-                correo_in.Direction = ParameterDirection.Input;
-                correo_in.Value = correo;
-                cmd.Parameters.Add(correo_in);
+                
 
                 //frecuente
                 OracleParameter frecuente_in = new OracleParameter();
@@ -139,14 +133,6 @@ namespace ControladorBD
                 comuna_in.Direction = ParameterDirection.Input;
                 comuna_in.Value = comuna.Id_comuna;
                 cmd.Parameters.Add(comuna_in);
-
-                //id_region
-                OracleParameter region_in = new OracleParameter();
-                region_in.ParameterName = "P_REGION";
-                region_in.OracleDbType = OracleDbType.Int32;
-                region_in.Direction = ParameterDirection.Input;
-                region_in.Value = region.Id_region;
-                cmd.Parameters.Add(region_in);
 
                 //id_nacionalidad
                 OracleParameter nacionalidad_in = new OracleParameter();
@@ -228,7 +214,7 @@ namespace ControladorBD
         }
         //método modificar
 
-        public static int ModificarCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string direccion, string telefono, DateTime fecha_nac, string correo, int frecuente, Comuna comuna, Region region, Nacionalidad nacionalidad)
+        public static int ModificarCliente(int id_cliente, string rut, string nombre, string primer_ape, string segundo_ape, string correo, string direccion, int telefono, DateTime fecha_naci, int frecuente, Comuna comuna, Nacionalidad nacionalidad)
         {
 
             conn = ConexionBD.AbrirConexion();
@@ -240,15 +226,14 @@ namespace ControladorBD
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
-                //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_inout = new OracleParameter();
-                id_inout.ParameterName = "P_ID";
-                id_inout.OracleDbType = OracleDbType.Decimal;
-                id_inout.Direction = ParameterDirection.Input;
-                id_inout.Value = id_cliente;
-                cmd.Parameters.Add(id_inout);
+                OracleParameter id_in = new OracleParameter();
+                id_in.ParameterName = "P_ID";
+                id_in.OracleDbType = OracleDbType.Int32;
+                id_in.Direction = ParameterDirection.Input;
+                id_in.Value = id_cliente;
+                cmd.Parameters.Add(id_in);
 
-                //rut
+                //rut**************
                 OracleParameter rut_in = new OracleParameter();
                 rut_in.ParameterName = "P_RUT";
                 rut_in.OracleDbType = OracleDbType.Varchar2;
@@ -261,7 +246,7 @@ namespace ControladorBD
                 OracleParameter nombre_in = new OracleParameter();
                 nombre_in.ParameterName = "P_NOMBRE";
                 nombre_in.OracleDbType = OracleDbType.Varchar2;
-                nombre_in.Size = 20;
+                nombre_in.Size = 40;
                 nombre_in.Direction = ParameterDirection.Input;
                 nombre_in.Value = nombre;
                 cmd.Parameters.Add(nombre_in);
@@ -271,7 +256,7 @@ namespace ControladorBD
                 OracleParameter primer_ape_in = new OracleParameter();
                 primer_ape_in.ParameterName = "P_PRIMER_APE";
                 primer_ape_in.OracleDbType = OracleDbType.Varchar2;
-                primer_ape_in.Size = 40;
+                primer_ape_in.Size = 30;
                 primer_ape_in.Direction = ParameterDirection.Input;
                 primer_ape_in.Value = primer_ape;
                 cmd.Parameters.Add(primer_ape_in);
@@ -281,16 +266,25 @@ namespace ControladorBD
                 OracleParameter segundo_ape_in = new OracleParameter();
                 segundo_ape_in.ParameterName = "P_SEGUNDO_APE";
                 segundo_ape_in.OracleDbType = OracleDbType.Varchar2;
-                segundo_ape_in.Size = 40;
+                segundo_ape_in.Size = 30;
                 segundo_ape_in.Direction = ParameterDirection.Input;
                 segundo_ape_in.Value = segundo_ape;
                 cmd.Parameters.Add(segundo_ape_in);
+
+                //correo
+                OracleParameter correo_in = new OracleParameter();
+                correo_in.ParameterName = "P_CORREO";
+                correo_in.OracleDbType = OracleDbType.Varchar2;
+                correo_in.Size = 30;
+                correo_in.Direction = ParameterDirection.Input;
+                correo_in.Value = correo;
+                cmd.Parameters.Add(correo_in);
 
                 //direccion
                 OracleParameter direccion_in = new OracleParameter();
                 direccion_in.ParameterName = "P_DIRECCION";
                 direccion_in.OracleDbType = OracleDbType.Varchar2;
-                direccion_in.Size = 60;
+                direccion_in.Size = 50;
                 direccion_in.Direction = ParameterDirection.Input;
                 direccion_in.Value = direccion;
                 cmd.Parameters.Add(direccion_in);
@@ -298,8 +292,7 @@ namespace ControladorBD
                 //telefono
                 OracleParameter telefono_in = new OracleParameter();
                 telefono_in.ParameterName = "P_TELEFONO";
-                telefono_in.OracleDbType = OracleDbType.Varchar2;
-                telefono_in.Size = 15;
+                telefono_in.OracleDbType = OracleDbType.Int32;
                 telefono_in.Direction = ParameterDirection.Input;
                 telefono_in.Value = telefono;
                 cmd.Parameters.Add(telefono_in);
@@ -310,17 +303,10 @@ namespace ControladorBD
                 fecha_nac_in.ParameterName = "P_FECHA_NAC";
                 fecha_nac_in.OracleDbType = OracleDbType.Date;
                 fecha_nac_in.Direction = ParameterDirection.Input;
-                fecha_nac_in.Value = fecha_nac;
+                fecha_nac_in.Value = fecha_naci;
                 cmd.Parameters.Add(fecha_nac_in);
 
-                //correo
-                OracleParameter correo_in = new OracleParameter();
-                correo_in.ParameterName = "P_CORREO";
-                correo_in.OracleDbType = OracleDbType.Varchar2;
-                correo_in.Size = 30;
-                correo_in.Direction = ParameterDirection.Input;
-                correo_in.Value = correo;
-                cmd.Parameters.Add(correo_in);
+
 
                 //frecuente
                 OracleParameter frecuente_in = new OracleParameter();
@@ -338,14 +324,6 @@ namespace ControladorBD
                 comuna_in.Value = comuna.Id_comuna;
                 cmd.Parameters.Add(comuna_in);
 
-                //id_region
-                OracleParameter region_in = new OracleParameter();
-                region_in.ParameterName = "P_REGION";
-                region_in.OracleDbType = OracleDbType.Int32;
-                region_in.Direction = ParameterDirection.Input;
-                region_in.Value = region.Id_region;
-                cmd.Parameters.Add(region_in);
-
                 //id_nacionalidad
                 OracleParameter nacionalidad_in = new OracleParameter();
                 nacionalidad_in.ParameterName = "P_NACIONALIDAD";
@@ -353,7 +331,6 @@ namespace ControladorBD
                 nacionalidad_in.Direction = ParameterDirection.Input;
                 nacionalidad_in.Value = nacionalidad.Id_nacionalidad;
                 cmd.Parameters.Add(nacionalidad_in);
-
                 //retorna filas afectadas 
                 OracleParameter affected_out = new OracleParameter();
                 affected_out.ParameterName = "P_AFFECTED";
@@ -409,7 +386,6 @@ namespace ControladorBD
 
                 //FALTARÍA AGREGAR VALIDACION EN CASO QUE ESTOS NO CARGEN
                 List<Comuna> comunas = ComunaController.ListarComuna();
-                List<Region> regiones = RegionController.ListarRegion();
                 List<Nacionalidad> nacionalidades = NacionalidadController.ListarNacionalidad();
 
                 Console.WriteLine(lector.RowSize);
@@ -419,22 +395,20 @@ namespace ControladorBD
                     while (lector.Read())
                     {
                         Comuna comuna = comunas.Where(com => com.Id_comuna == lector.GetInt32(10)).ToList().FirstOrDefault();
-                        Region region = regiones.Where(r => r.Id_region == lector.GetInt32(11)).ToList().FirstOrDefault();
-                        Nacionalidad nacionalidad = nacionalidades.Where(nacion => nacion.Id_nacionalidad == lector.GetInt32(12)).ToList().FirstOrDefault();
+                        Nacionalidad nacionalidad = nacionalidades.Where(nacion => nacion.Id_nacionalidad == lector.GetInt32(11)).ToList().FirstOrDefault();
 
                         Cliente cliente = new Cliente();
                         cliente.Id_cliente = lector.GetInt32(0);
                         cliente.Rut = lector.GetString(1);
                         cliente.Nombre = lector.GetString(2);
-                        cliente.Primer_ape = lector.GetString(3);
-                        cliente.Segundo_ape = lector.GetString(4);
-                        cliente.Direccion = lector.GetString(5);
-                        cliente.Telefono = lector.GetString(6);
-                        cliente.Fecha_nac = lector.GetDateTime(7);
-                        cliente.Correo = lector.GetString(8);
+                        cliente.Apaterno = lector.GetString(3);
+                        cliente.Amaterno = lector.GetString(4);
+                        cliente.Correo = lector.GetString(5);
+                        cliente.Direccion = lector.GetString(6);
+                        cliente.Telefono = lector.GetInt32(7);
+                        cliente.Fe_naci = lector.GetDateTime(8);
                         cliente.Frecuente = lector.GetInt32(9);
                         cliente.Comuna = comuna;
-                        cliente.Region = region;
                         cliente.Nacionalidad = nacionalidad;
 
                         clientes.Add(cliente);

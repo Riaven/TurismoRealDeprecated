@@ -29,7 +29,7 @@ namespace ControladorBD
 
         //Llamada a crear
 
-        public static int CrearServicioExtra(int id, string descripcion)
+        public static int CrearServicioExtra(string descripcion, int precio)
         {
             conn = ConexionBD.AbrirConexion();
             int creado = 0;
@@ -40,22 +40,22 @@ namespace ControladorBD
                 //decimos que es un procedimiento/función
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
-                //p_id parámetro de entrada y salida, contiene el id 
-                OracleParameter id_in = new OracleParameter();
-                id_in.ParameterName = "P_ID";
-                id_in.OracleDbType = OracleDbType.Decimal;
-                id_in.Direction = ParameterDirection.Input;
-                id_in.Value = id;
-                cmd.Parameters.Add(id_in);
-
-                //p_id parámetro de entrada y salida, contiene el id 
+                //ingresa la descripcion
                 OracleParameter descripcion_in = new OracleParameter();
                 descripcion_in.ParameterName = "P_DESCRIPCION";
                 descripcion_in.OracleDbType = OracleDbType.Varchar2;
-                descripcion_in.Size = 20;
+                descripcion_in.Size = 80;
                 descripcion_in.Direction = ParameterDirection.Input;
                 descripcion_in.Value = descripcion;
                 cmd.Parameters.Add(descripcion_in);
+
+                //ingresa el precio del servicio extra
+                OracleParameter precio_in = new OracleParameter();
+                precio_in.ParameterName = "P_PRECIO";
+                precio_in.OracleDbType = OracleDbType.Int32;
+                precio_in.Direction = ParameterDirection.Input;
+                precio_in.Value = precio;
+                cmd.Parameters.Add(precio_in);
 
                 //retorna filas afectadas 
                 OracleParameter affected_out = new OracleParameter();
@@ -64,27 +64,26 @@ namespace ControladorBD
                 affected_out.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(affected_out);
 
-
                 cmd.ExecuteNonQuery();
 
                 creado = int.Parse(affected_out.Value.ToString());
-
-                cmd.Parameters.Clear();
-                conn.Close();
-                conn.Dispose();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Houston, tenemos un problema : {ex} - ServicioExtraController/Crear");
                 creado = -1;
             }
+            cmd.Parameters.Clear();
+            conn.Close();
+            conn.Dispose();
             //-1 error con la base de datos
             //0 no se modifico ninguna fila
             //1 se modifico una fila
             return creado;
         }
+
         //Llamada a modificar
-        public static int ModificarServicioExtra(int id, string descripcion)
+        public static int ModificarServicioExtra(int id_se, string descripcion, int precio)
         {
             conn = ConexionBD.AbrirConexion();
             int modificado = 0;
@@ -95,23 +94,30 @@ namespace ControladorBD
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 //tomando los datos
-                //p_id parámetro de entrada y salida, contiene el id 
                 OracleParameter id_in = new OracleParameter();
                 id_in.ParameterName = "P_ID";
-                id_in.OracleDbType = OracleDbType.Decimal;
+                id_in.OracleDbType = OracleDbType.Int32;
                 id_in.Direction = ParameterDirection.Input;
-                id_in.Value = id;
+                id_in.Value = id_se;
                 cmd.Parameters.Add(id_in);
 
-                //p_id parámetro de entrada y salida, contiene el id 
+                //ingresa la descripcion 
                 OracleParameter descripcion_in = new OracleParameter();
                 descripcion_in.ParameterName = "P_DESCRIPCION";
                 descripcion_in.OracleDbType = OracleDbType.Varchar2;
-                descripcion_in.Size = 20;
+                descripcion_in.Size = 80;
                 descripcion_in.Direction = ParameterDirection.Input;
                 descripcion_in.Value = descripcion;
                 cmd.Parameters.Add(descripcion_in);
-
+                
+                //ingreso de precio de servicio extra
+                OracleParameter precio_in = new OracleParameter();
+                precio_in.ParameterName = "P_PRECIO";
+                precio_in.OracleDbType = OracleDbType.Int32;
+                precio_in.Direction = ParameterDirection.Input;
+                precio_in.Value = precio;
+                cmd.Parameters.Add(precio_in);
+                // retorna filas afectadas
                 OracleParameter affected_out = new OracleParameter();
                 affected_out.ParameterName = "P_AFFECTED";
                 affected_out.OracleDbType = OracleDbType.Int32;
@@ -210,6 +216,7 @@ namespace ControladorBD
                     ServicioExtra se = new ServicioExtra();
                     se.Id_servicio_extra = lector.GetInt32(0);
                     se.Descripcion = lector.GetString(1);
+                    se.Precio = lector.GetInt32(2);
 
                     servicios_extras.Add(se);
                 }
