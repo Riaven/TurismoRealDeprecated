@@ -49,5 +49,15 @@ namespace ControladorBD
             }
             return estados_depa;
         }
+
+        public static List<EstadoDepartamento> BuscarEstadoDepa(int id)
+        {
+            List<EstadoDepartamento> estados_depa = ListarEstadoDepartamento();
+            if (estados_depa != null)
+            {
+               return estados_depa.Where(est => (est.Id_estado_departamento == id)).ToList();
+            }
+            return estados_depa;
+        }
     }
 }

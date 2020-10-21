@@ -51,5 +51,15 @@ namespace ControladorBD
             conn.Close();
             return nacionalidades;
         }
+
+        public static List<Nacionalidad> BuscarNacionalidad(int id)
+        {
+            List<Nacionalidad> nacionalidades = ListarNacionalidad();
+            if (nacionalidades != null)
+            {
+                return nacionalidades.Where(nac => (nac.Id_nacionalidad == id)).ToList();
+            }
+            return nacionalidades;
+        }
     }
 }

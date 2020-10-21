@@ -48,5 +48,15 @@ namespace ControladorBD
             }
             return comunas;
         }
+
+        public static List<Comuna> BuscarComuna(int id)
+        {
+            List<Comuna> comunas = ListarComuna();
+            if (comunas != null)
+            {
+                return comunas.Where(com => (com.Id_comuna == id)).ToList();
+            }
+            return comunas;
+        }
     }
 }

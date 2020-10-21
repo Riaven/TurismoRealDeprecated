@@ -35,8 +35,8 @@ namespace ControladorBD
                 OracleDataReader lector = ((OracleRefCursor)lista_empleado.Value).GetDataReader();
 
                 // cargamos datos externos
-                List<CargoEmpleado> cargos_emp = CargoEmpleadoController.ListarCargoEmpleado();
-                List<Nacionalidad> nacionalidades = NacionalidadController.ListarNacionalidad();
+                //List<CargoEmpleado> cargos_emp = CargoEmpleadoController.ListarCargoEmpleado();
+                //List<Nacionalidad> nacionalidades = NacionalidadController.ListarNacionalidad();
 
                 while (lector.Read())
                 {
@@ -54,20 +54,30 @@ namespace ControladorBD
                     emp.Sueldo = lector.GetInt32(10);
                     emp.Fecha_contrato = lector.GetDateTime(11);
 
-                    CargoEmpleado cargo = cargos_emp.Where(cargo_e => cargo_e.Id_cargo == lector.GetInt32(12)).ToList().FirstOrDefault();
+                    CargoEmpleado cargo = CargoEmpleadoController.BuscarCargoEmpleado(lector.GetInt32(12)).First();
+                    //CargoEmpleado cargo = cargos_emp.Where(cargo_e => cargo_e.Id_cargo == ).ToList().FirstOrDefault();
                     emp.Cargo_empleado = cargo;
 
-                    Nacionalidad nacionalidad = nacionalidades.Where(nacion => nacion.Id_nacionalidad == lector.GetInt32(13)).ToList().FirstOrDefault();
+                    //Nacionalidad nacionalidad = nacionalidades.Where(nacion => nacion.Id_nacionalidad == lector.GetInt32(13)).ToList().FirstOrDefault();
+                    Nacionalidad nacionalidad = NacionalidadController.BuscarNacionalidad(lector.GetInt32(13)).First();
                     emp.Nacionalidad = nacionalidad;
                     
-
-
                     empleados.Add(emp);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Me caí we en cargar la lista de empledos{ex}");
+            }
+            return empleados;
+        }
+
+        public static List<Empleado> BuscarEmpleado(int id, string rut, string nombre, string apaterno)
+        {
+            List<Empleado> empleados = ListarEmpleado();
+            if (empleados != null)
+            {
+                return empleados.Where(emp => (emp.Id_empleado == id)).ToList();
             }
             return empleados;
         }

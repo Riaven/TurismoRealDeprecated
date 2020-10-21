@@ -54,6 +54,15 @@ namespace ControladorBD
             
             return regiones;
         }
-        
+
+        public static List<Region> BuscarRegion(int id)
+        {
+            List<Region> regiones = ListarRegion();
+            if (regiones != null)
+            {
+                return regiones.Where(reg => (reg.Id_region == id)).ToList();
+            }
+            return regiones;
+        }
     }
 }

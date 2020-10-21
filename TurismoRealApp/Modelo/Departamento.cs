@@ -12,7 +12,7 @@ namespace Modelo
         private string _ubicacion;
         private int _numero;
         private int _precio;
-        private string _m_cuadrados;
+        private int _m_cuadrados;
         private int _banios;
         private string _descripcion;
         private int _cantidad_habitacion;
@@ -24,7 +24,7 @@ namespace Modelo
         {
         }
 
-        public Departamento(int id_departamento, string ubicacion, int numero, int precio, string cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Comuna comuna, Empleado funcionario)
+        public Departamento(int id_departamento, string ubicacion, int numero, int precio, int cuadrados, int banios, string descripcion, int cantidad_habitacion, EstadoDepartamento estado_departamento, Comuna comuna, Empleado funcionario)
         {
             Id_departamento = id_departamento;
             Ubicacion = ubicacion;
@@ -43,7 +43,7 @@ namespace Modelo
         public string Ubicacion { get => _ubicacion; set => _ubicacion = value; }
         public int Numero { get => _numero; set => _numero = value; }
         public int Precio { get => _precio; set => _precio = value; }
-        public string Cuadrados { get => _m_cuadrados; set => _m_cuadrados = value; }
+        public int Cuadrados { get => _m_cuadrados; set => _m_cuadrados = value; }
         public int Banios { get => _banios; set => _banios = value; }
         public string Descripcion { get => _descripcion; set => _descripcion = value; }
         public int Cantidad_habitacion { get => _cantidad_habitacion; set => _cantidad_habitacion = value; }

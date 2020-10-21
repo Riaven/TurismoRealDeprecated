@@ -20,13 +20,14 @@ namespace ControladorBD
 
         //método buscar
         //falta agregar buscar por demás atributos
-        public static Departamento BuscarDepartamento(int id)
+        public static List<Departamento> BuscarDepartamento(int id)
         {
+            List<Departamento> departamento = ListarDepartamento();
             if (ListarDepartamento().Count > 0)
             {
-                List<Departamento> departamentos = (from departamento in ListarDepartamento() where departamento.Id_departamento == id select departamento).ToList();
 
-                return departamentos.Count > 0 ? departamentos[0] : null;
+
+                return departamento;
             }
             else
             {
@@ -357,17 +358,25 @@ namespace ControladorBD
 
                 //rescatando la data
                 OracleDataReader lector = ((OracleRefCursor)lista_departamento.Value).GetDataReader();
-                //cargamos los datos externos
-                List<Comuna> comunas = ComunaController.ListarComuna();
-                
-                //estado_departamento
-
-
 
                 while (lector.Read())
                 {
-                    //TODO
-                    //departamentos.Add(cliente);
+                    Departamento depa = new Departamento();
+                    depa.Id_departamento = lector.GetInt32(0);
+                    depa.Ubicacion = lector.GetString(1);
+                    depa.Numero = lector.GetInt32(2);
+                    depa.Precio = lector.GetInt32(3);
+                    depa.Cuadrados = lector.GetInt32(4);
+                    depa.Banios = lector.GetInt32(5);
+                    depa.Descripcion = lector.GetString(6);
+                    depa.Cantidad_habitacion = lector.GetInt32(7);
+                    EstadoDepartamento esta_depa = EstadoDepartamentoController.BuscarEstadoDepa(lector.GetInt32(8)).First();
+                    depa.Estado_departamento = esta_depa;
+                    Comuna comu = ComunaController.BuscarComuna(lector.GetInt32(9)).First();
+                    depa.Comuna = comu;
+                    Empleado emp = EmpleadoController.BuscarEmpleado(lector.GetInt32(10), null, null, null).First();
+                    depa.Funcionario = emp;
+                    departamentos.Add(depa);
                 }
 
             }

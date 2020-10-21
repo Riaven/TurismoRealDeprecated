@@ -50,5 +50,15 @@ namespace ControladorBD
             }
             return cargos;
         }
+
+        public static List<CargoEmpleado> BuscarCargoEmpleado(int id)
+        {
+            List<CargoEmpleado> cargos_emp = ListarCargoEmpleado();
+            if (cargos_emp != null)
+            {
+                return cargos_emp.Where(car => (car.Id_cargo == id)).ToList();
+            }
+            return cargos_emp;
+        }
     }
 }
